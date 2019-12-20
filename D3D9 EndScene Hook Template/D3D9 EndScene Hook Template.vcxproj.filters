@@ -25,6 +25,9 @@
     <Filter Include="agui">
       <UniqueIdentifier>{c895d201-8135-4bb9-8663-f1becbb6622e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Print">
+      <UniqueIdentifier>{e657d916-4938-4273-92bc-ccea3d3a99a6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -54,6 +57,15 @@
     <ClInclude Include="gh_d3d9.h">
       <Filter>d3d9hook</Filter>
     </ClInclude>
+    <ClInclude Include="Print.hpp">
+      <Filter>Print</Filter>
+    </ClInclude>
+    <ClInclude Include="fake_ntdll.h">
+      <Filter>mem</Filter>
+    </ClInclude>
+    <ClInclude Include="Patternscan.hpp">
+      <Filter>mem</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -82,6 +94,12 @@
     </ClCompile>
     <ClCompile Include="gh_d3d9.cpp">
       <Filter>d3d9hook</Filter>
+    </ClCompile>
+    <ClCompile Include="Print.cpp">
+      <Filter>Print</Filter>
+    </ClCompile>
+    <ClCompile Include="Patternscan.cpp">
+      <Filter>mem</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

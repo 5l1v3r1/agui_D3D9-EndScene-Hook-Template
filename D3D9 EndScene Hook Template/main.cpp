@@ -5,6 +5,7 @@
 #include "adrawing.hpp"
 #include "amenu.hpp"
 #include "aconsole.hpp"
+#include "Print.hpp"
 
 
 bool bInit = false;
@@ -29,14 +30,13 @@ HRESULT APIENTRY hkEndScene(LPDIRECT3DDEVICE9 pDevice)
 	amenu::drawMenu();
 	aconsole::drawConsole();
 
-	static int counter = 0; char tempStr[50];
-	sprintf_s(tempStr, ARRAYSIZE(tempStr), "I'm the counter 0x%p, %i", &counter, counter++);
+	static int counter = 0;
 
-	aconsole::printToWatchList(0, "I'm in a Loop");
-	aconsole::printToWatchList(1, tempStr);
+	WATCH(0, "%s", "I'm in a Loop");
+	WATCH(1, "%p, %i", &counter, counter++);
 
 	if (counter < 20)
-		aconsole::printToConsole(tempStr);
+		INGAME("I'm the counter 0x%p, %i", &counter, counter);
 
 	return oEndScene(pDevice);
 }
