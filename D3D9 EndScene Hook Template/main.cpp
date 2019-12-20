@@ -1,0 +1,83 @@
+#include "stdafx.h"
+#include <windows.h>
+#include "Hook.hpp"
+#include "gh_d3d9.h"
+#include "adrawing.hpp"
+#include "amenu.hpp"
+#include "aconsole.hpp"
+
+
+bool bInit = false;
+TrampHook thEndScene;
+tEndScene oEndScene = nullptr;
+LPDIRECT3DDEVICE9 pD3DDevice = nullptr;
+void* d3d9Device[119];
+
+HRESULT APIENTRY hkEndScene(LPDIRECT3DDEVICE9 pDevice)
+{
+	if (bInit == false)
+	{
+		pD3DDevice = pDevice;
+		bInit = true;
+	}
+
+	//draw stuff here like so:
+	//DrawFilledRect(200, 200, 200, 200, D3DCOLOR_ARGB(255, 255, 0, 0), pDevice);
+
+	// Drawing agui
+	adrawing::initDrawing((IDirect3DDevice9Ex*)pDevice);
+	amenu::drawMenu();
+	aconsole::drawConsole();
+
+	static int counter = 0; char tempStr[50];
+	sprintf_s(tempStr, ARRAYSIZE(tempStr), "I'm the counter 0x%p, %i", &counter, counter++);
+
+	aconsole::printToWatchList(0, "I'm in a Loop");
+	aconsole::printToWatchList(1, tempStr);
+
+	if (counter < 20)
+		aconsole::printToConsole(tempStr);
+
+	return oEndScene(pDevice);
+}
+
+DWORD WINAPI Init(HMODULE hModule)
+{
+	if (GetD3D9Device(d3d9Device, sizeof(d3d9Device)))
+	{
+		oEndScene = (tEndScene)thEndScene.trampHook((char*)d3d9Device[42], (char*)hkEndScene, 7);
+	}
+
+	while (!(GetAsyncKeyState(VK_XBUTTON1) & 0x8000))
+	{
+		Sleep(1);
+	}
+
+	adrawing::cleanUp();
+	amenu::cleanUpMenu();
+	aconsole::cleanUpConsole();
+	thEndScene.trampUnhook();
+	Sleep(200);
+	FreeLibraryAndExitThread(hModule, 0);
+
+	return 0;
+}
+
+BOOL APIENTRY DllMain(HMODULE hModule, DWORD ul_reason_for_call, LPVOID lpReserved)
+{
+	switch (ul_reason_for_call)
+	{
+	case DLL_PROCESS_ATTACH:
+	{
+		HANDLE hThread = nullptr;
+		hThread = CreateThread(nullptr, 0, (LPTHREAD_START_ROUTINE)Init, hModule, 0, nullptr);
+		if (hThread)
+			CloseHandle(hThread);
+	}
+	case DLL_THREAD_ATTACH:
+	case DLL_THREAD_DETACH:
+	case DLL_PROCESS_DETACH:
+		break;
+	}
+	return TRUE;
+}
