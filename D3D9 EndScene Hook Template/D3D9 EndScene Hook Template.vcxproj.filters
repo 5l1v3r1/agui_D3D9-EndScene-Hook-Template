@@ -28,6 +28,12 @@
     <Filter Include="Print">
       <UniqueIdentifier>{e657d916-4938-4273-92bc-ccea3d3a99a6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Offsets">
+      <UniqueIdentifier>{c63cdd60-f601-49ec-b094-c46354c786f6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SDK">
+      <UniqueIdentifier>{766d9033-6e80-4412-9eb9-2eb84b62c0dd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -66,6 +72,12 @@
     <ClInclude Include="Patternscan.hpp">
       <Filter>mem</Filter>
     </ClInclude>
+    <ClInclude Include="Offsets.hpp">
+      <Filter>Offsets</Filter>
+    </ClInclude>
+    <ClInclude Include="Netvars.hpp">
+      <Filter>SDK</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -100,6 +112,12 @@
     </ClCompile>
     <ClCompile Include="Patternscan.cpp">
       <Filter>mem</Filter>
+    </ClCompile>
+    <ClCompile Include="Offsets.cpp">
+      <Filter>Offsets</Filter>
+    </ClCompile>
+    <ClCompile Include="Netvars.cpp">
+      <Filter>SDK</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "Patternscan.hpp"
-#include "fake_ntdll.h"
-#include <Windows.h>
+
+//#include <Windows.h>
 
 
 char* ScanBasic(char* pattern, char* mask, char* begin, intptr_t size)
@@ -46,16 +46,33 @@ char* ScanInternal(char* pattern, char* mask, char* begin, intptr_t size)
 	return match;
 }
 
-
-
-char* TO_CHAR(wchar_t* string)
+char* ScanModIn(char* pattern, char* mask, std::string modName)
 {
-	size_t len = wcslen(string) + 1;
-	char* c_string = new char[len];
-	size_t numCharsRead;
-	wcstombs_s(&numCharsRead, c_string, len, string, _TRUNCATE);
-	return c_string;
+	LDR_DATA_TABLE_ENTRY* ldr = GetLDREntry(modName);
+
+	char* match = ScanInternal(pattern, mask, (char*)ldr->DllBase, ldr->SizeOfImage);
+
+	return match;
 }
+
+char* ScanModIn(char* combopattern, std::string modName)
+{
+	LDR_DATA_TABLE_ENTRY* ldr = GetLDREntry(modName);
+
+	char pattern[100]{};
+	char mask[100]{};
+	Parse(combopattern, pattern, mask);
+
+	char* match = ScanInternal(pattern, mask, (char*)ldr->DllBase, ldr->SizeOfImage);
+
+	return match;
+}
+
+char* ScanModIn(char* combopattern, int offset, std::string modName)
+{
+	return ScanModIn(combopattern, modName) + offset;
+}
+
 
 PEB* GetPEB()
 {
@@ -100,11 +117,37 @@ LDR_DATA_TABLE_ENTRY* GetLDREntry(std::string name)
 	return ldr;
 }
 
-char* ScanModIn(char* pattern, char* mask, std::string modName)
+
+
+void Parse(char* combo, char* pattern, char* mask)
 {
-	LDR_DATA_TABLE_ENTRY* ldr = GetLDREntry(modName);
+	char lastChar = ' ';
+	int j = 0;
 
-	char* match = ScanInternal(pattern, mask, (char*)ldr->DllBase, ldr->SizeOfImage);
+	for (unsigned int i = 0; i < strlen(combo); i++)
+	{
+		if ((combo[i] == '?' || combo[i] == '*') && (lastChar != '?' && lastChar != '*'))
+		{
+			pattern[j] = mask[j] = '?';
+			j++;
+		}
 
-	return match;
+		else if (isspace(lastChar))
+		{
+			pattern[j] = lastChar = (char)strtol(&combo[i], 0, 16);
+			mask[j] = 'x';
+			j++;
+		}
+		lastChar = combo[i];
+	}
+	pattern[j] = mask[j] = '\0';
+}
+
+char* TO_CHAR(wchar_t* string)
+{
+	size_t len = wcslen(string) + 1;
+	char* c_string = new char[len];
+	size_t numCharsRead;
+	wcstombs_s(&numCharsRead, c_string, len, string, _TRUNCATE);
+	return c_string;
 }

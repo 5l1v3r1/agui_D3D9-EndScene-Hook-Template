@@ -6,7 +6,7 @@
 #include "amenu.hpp"
 #include "aconsole.hpp"
 #include "Print.hpp"
-
+#include "Offsets.hpp"
 
 bool bInit = false;
 TrampHook thEndScene;
@@ -47,6 +47,10 @@ DWORD WINAPI Init(HMODULE hModule)
 	{
 		oEndScene = (tEndScene)thEndScene.trampHook((char*)d3d9Device[42], (char*)hkEndScene, 7);
 	}
+
+	Offsets* myOff = new Offsets();
+	myOff->initSignatures();
+	myOff->initNetvars();
 
 	while (!(GetAsyncKeyState(VK_XBUTTON1) & 0x8000))
 	{
