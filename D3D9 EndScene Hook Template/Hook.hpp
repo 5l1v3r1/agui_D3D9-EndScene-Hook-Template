@@ -23,5 +23,7 @@ public:
 	TrampHook() : gateway(nullptr), length(0) { };
 
 	char* trampHook(char* src, char* dst, unsigned int len);
+	char* trampHook(char* src, char* dst);
+	int getTrampHookLength(char* src);
 	bool trampUnhook();
 };

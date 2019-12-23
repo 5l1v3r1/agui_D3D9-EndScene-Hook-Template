@@ -1,3 +1,4 @@
+#include <memory>
 
 class Offsets
 {
@@ -44,9 +45,10 @@ public:
 	ptrdiff_t m_aimPunchAngle;
 	ptrdiff_t m_iShotsFired;
 	ptrdiff_t m_lifeState;
+	ptrdiff_t m_vecOrigin;
+	ptrdiff_t m_dwBoneMatrix;
 
 	// client_panorama.dll + dwGlowObjectManager
 	ptrdiff_t m_iGlowIndex;
 };
-
-
+extern std::unique_ptr<Offsets> gOffsets;

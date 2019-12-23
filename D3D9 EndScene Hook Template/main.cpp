@@ -7,6 +7,7 @@
 #include "aconsole.hpp"
 #include "Print.hpp"
 #include "Offsets.hpp"
+#include "Aimbot.hpp"
 
 bool bInit = false;
 TrampHook thEndScene;
@@ -43,17 +44,20 @@ HRESULT APIENTRY hkEndScene(LPDIRECT3DDEVICE9 pDevice)
 
 DWORD WINAPI Init(HMODULE hModule)
 {
+
 	if (GetD3D9Device(d3d9Device, sizeof(d3d9Device)))
 	{
-		oEndScene = (tEndScene)thEndScene.trampHook((char*)d3d9Device[42], (char*)hkEndScene, 7);
+		oEndScene = (tEndScene)thEndScene.trampHook((char*)d3d9Device[42], (char*)hkEndScene);
 	}
 
-	Offsets* myOff = new Offsets();
-	myOff->initSignatures();
-	myOff->initNetvars();
+
+	gOffsets->initSignatures();
+	gOffsets->initNetvars();
+
 
 	while (!(GetAsyncKeyState(VK_XBUTTON1) & 0x8000))
 	{
+		g_aimbot->Run();
 		Sleep(1);
 	}
 

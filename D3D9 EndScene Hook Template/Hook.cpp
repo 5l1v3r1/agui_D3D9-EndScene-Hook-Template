@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "Hook.hpp"
+#include "ldisasm.h"
 
 
 bool Hook::hook(char* src, char* dst, int len)
@@ -84,6 +85,27 @@ char* TrampHook::trampHook(char* src, char* dst, unsigned int len)
 		return gateway;
 
 	return nullptr;
+}
+
+char* TrampHook::trampHook(char* src, char* dst)
+{
+
+	return trampHook(src, dst, getTrampHookLength(src));
+
+}
+
+int TrampHook::getTrampHookLength(char* src)
+{
+	int lengthHook = 0;
+	const int size = 15;
+	char buffer[size];
+
+	memcpy(buffer, src, size);
+
+	while(lengthHook < 5)
+		lengthHook += ldisasm(&buffer[lengthHook]);
+
+	return lengthHook;
 }
 
 bool TrampHook::trampUnhook()

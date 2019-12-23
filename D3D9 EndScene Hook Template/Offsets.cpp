@@ -47,4 +47,7 @@ void Offsets::initNetvars()
 	m_aimPunchAngle = GetNetVarOffset("DT_BasePlayer", "m_aimPunchAngle", (ClientClass*)dwGetAllClasses);
 	m_iShotsFired = GetNetVarOffset("DT_CSPlayer", "m_iShotsFired", (ClientClass*)dwGetAllClasses);
 	m_lifeState = GetNetVarOffset("DT_CSPlayer", "m_lifeState", (ClientClass*)dwGetAllClasses);
+	m_vecOrigin = GetNetVarOffset("DT_BasePlayer", "m_vecOrigin", (ClientClass*)dwGetAllClasses);
+	m_dwBoneMatrix = GetNetVarOffset("DT_BaseAnimating", "m_nForceBone", (ClientClass*)dwGetAllClasses) + 28;
 }
+std::unique_ptr<Offsets> gOffsets = std::make_unique<Offsets>();
