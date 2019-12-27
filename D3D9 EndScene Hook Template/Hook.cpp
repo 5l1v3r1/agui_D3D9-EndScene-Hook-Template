@@ -89,9 +89,7 @@ char* TrampHook::trampHook(char* src, char* dst, unsigned int len)
 
 char* TrampHook::trampHook(char* src, char* dst)
 {
-
 	return trampHook(src, dst, getTrampHookLength(src));
-
 }
 
 int TrampHook::getTrampHookLength(char* src)

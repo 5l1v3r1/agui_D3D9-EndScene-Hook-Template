@@ -196,12 +196,12 @@ void printSelect(OUTPUT o, const char* fmt, ...)
 		printFile(buffer);
 		break;
 	case OUTPUT::INGAME:
-		aconsole::printToConsole(buffer);
+		aconsole::gConsole->printToConsole(buffer);
 		break;
 	case OUTPUT::WATCH:
 	{
 		int pos = args[0];
-		aconsole::printToWatchList(pos, buffer);
+		aconsole::gConsole->printToWatchList(pos, buffer);
 		break;
 	}
 	default:

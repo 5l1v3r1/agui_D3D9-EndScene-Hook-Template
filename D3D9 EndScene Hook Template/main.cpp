@@ -6,7 +6,7 @@
 #include "amenu.hpp"
 #include "aconsole.hpp"
 #include "Print.hpp"
-#include "Offsets.hpp"
+#include "Signature.hpp"
 #include "Aimbot.hpp"
 
 bool bInit = false;
@@ -21,15 +21,18 @@ HRESULT APIENTRY hkEndScene(LPDIRECT3DDEVICE9 pDevice)
 	{
 		pD3DDevice = pDevice;
 		bInit = true;
+		adrawing::gDraw->initDrawing((IDirect3DDevice9Ex*)pDevice);
+		amenu::gMenu->initSettings();
+		amenu::gMenu->initMenu();
+		aconsole::gConsole->initSettings();
+		aconsole::gConsole->initConsole();
 	}
 
 	//draw stuff here like so:
 	//DrawFilledRect(200, 200, 200, 200, D3DCOLOR_ARGB(255, 255, 0, 0), pDevice);
 
-	// Drawing agui
-	adrawing::initDrawing((IDirect3DDevice9Ex*)pDevice);
-	amenu::drawMenu();
-	aconsole::drawConsole();
+	amenu::gMenu->drawMenu();
+	aconsole::gConsole->drawConsole();
 
 	static int counter = 0;
 
@@ -50,9 +53,9 @@ DWORD WINAPI Init(HMODULE hModule)
 		oEndScene = (tEndScene)thEndScene.trampHook((char*)d3d9Device[42], (char*)hkEndScene);
 	}
 
-
-	gOffsets->initSignatures();
-	gOffsets->initNetvars();
+	
+	gSignature->initSignatures();
+	gSignature->initNetvars();
 
 
 	while (!(GetAsyncKeyState(VK_XBUTTON1) & 0x8000))
@@ -61,9 +64,9 @@ DWORD WINAPI Init(HMODULE hModule)
 		Sleep(1);
 	}
 
-	adrawing::cleanUp();
-	amenu::cleanUpMenu();
-	aconsole::cleanUpConsole();
+	adrawing::gDraw->cleanUp();
+	amenu::gMenu->cleanUpMenu();
+	aconsole::gConsole->cleanUpConsole();
 	thEndScene.trampUnhook();
 	Sleep(200);
 	FreeLibraryAndExitThread(hModule, 0);

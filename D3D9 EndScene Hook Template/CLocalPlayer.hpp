@@ -1,7 +1,7 @@
 #pragma once
 #include <Windows.h>
 #include "Vector.hpp"
-#include "Offsets.hpp"
+
 
 class CLocalPlayer
 {
@@ -18,21 +18,22 @@ public:
 
 	bool isAlive();
 
-	int* health = (int*) gOffsets->m_iHealth;
+	//int* health = (int*) gOffsets->m_iHealth;
 
 };
-
+/*
 class newPlayer
 {
 public:
 	//int CLocalPlayer::* ptrHealth = &CLocalPlayer::health;
-	int CLocalPlayer::* ptrHealth;
+	//int CLocalPlayer::* ptrHealth;
 };
 
-typedef int(CLocalPlayer::* ptrHealth);
+//typedef int(CLocalPlayer::* ptrHealth);
 
 void func()
 {
+
 	//newPlayer p;
 	//p.ptrHealth = (CLocalPlayer::health)(gOffsets->dwLocalPlayer + gOffsets->m_iHealth);
 
@@ -49,4 +50,6 @@ void func()
 	
 	
 	l.*p = 3;
+	
 }
+*/

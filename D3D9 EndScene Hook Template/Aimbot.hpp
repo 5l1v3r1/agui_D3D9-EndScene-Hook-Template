@@ -1,6 +1,6 @@
 #pragma once
-#include "Vector.hpp"
 #include <memory>
+#include "Vector.hpp"
 
 class Aimbot
 {

@@ -17,9 +17,6 @@
     <Filter Include="Print">
       <UniqueIdentifier>{e657d916-4938-4273-92bc-ccea3d3a99a6}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Offsets">
-      <UniqueIdentifier>{c63cdd60-f601-49ec-b094-c46354c786f6}</UniqueIdentifier>
-    </Filter>
     <Filter Include="SDK">
       <UniqueIdentifier>{766d9033-6e80-4412-9eb9-2eb84b62c0dd}</UniqueIdentifier>
     </Filter>
@@ -35,6 +32,9 @@
     </Filter>
     <Filter Include="Cheat">
       <UniqueIdentifier>{ed340e00-38b3-4565-ae86-32255798a779}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Signature">
+      <UniqueIdentifier>{c63cdd60-f601-49ec-b094-c46354c786f6}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -74,9 +74,6 @@
     <ClInclude Include="Patternscan.hpp">
       <Filter>Memory</Filter>
     </ClInclude>
-    <ClInclude Include="Offsets.hpp">
-      <Filter>Offsets</Filter>
-    </ClInclude>
     <ClInclude Include="Netvars.hpp">
       <Filter>SDK</Filter>
     </ClInclude>
@@ -94,6 +91,9 @@
     </ClInclude>
     <ClInclude Include="Aimbot.hpp">
       <Filter>Cheat</Filter>
+    </ClInclude>
+    <ClInclude Include="Signature.hpp">
+      <Filter>Signature</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -130,9 +130,6 @@
     <ClCompile Include="Patternscan.cpp">
       <Filter>Memory</Filter>
     </ClCompile>
-    <ClCompile Include="Offsets.cpp">
-      <Filter>Offsets</Filter>
-    </ClCompile>
     <ClCompile Include="Netvars.cpp">
       <Filter>SDK</Filter>
     </ClCompile>
@@ -147,6 +144,9 @@
     </ClCompile>
     <ClCompile Include="Aimbot.cpp">
       <Filter>Cheat</Filter>
+    </ClCompile>
+    <ClCompile Include="Signature.cpp">
+      <Filter>Signature</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

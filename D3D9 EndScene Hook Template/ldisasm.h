@@ -1,6 +1,8 @@
 #pragma once
 #include <algorithm>
 
+// https://guidedhacking.com/threads/length-disassembler-x86-x64.14233/?__cf_chl_jschl_tk__=a57d62941f4fb6be60a40892d28271278be5c767-1577455100-0-AZkOkrxlqq1uIf4nzxGo0__Db3fPSy0GTaFWNT14DaZscJxX_4iFVFXAvugjXqB-5SAawzS2Bx2nKN2r6UcEeP5m4Au6JesMHUd6qAkZ8KrNoVfnW9IYs8kgFtinh12nbm-d2UgmJXNGC6qpw7WLTPn5UOxFoI5YHYDvyXOrmsg4vn-57igm85bYstxHvXEzlREyH6ZCZUTz6MX-N3S5f4hdAmuotW3jABgjC3PXOCFFYQyubc6KkiCURubbvX90UiCyTdp4AH5u2CZPdNNlgXgV-XpTBAgDdZLR_owwKdHdotOtS0KyPhOgAcXFCFq-fA#post-86145
+
 #define FIND(arrayName) (std::find(std::begin(arrayName), std::end(arrayName), B) != std::end(arrayName))
 #define B *b //Byte
 #define R (*b >> 4) //Row

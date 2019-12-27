@@ -26,21 +26,27 @@ namespace adrawing
 	extern MY_D3DCOLOR White;
 	extern //MY_D3DCOLOR myBlue = MY_D3DCOLOR_ARGB(255, 0, 122, 204);
 
-	struct draw
-	{
+	class draw
+	{	
 		IDirect3DDevice9Ex* device;
 		ID3DXFont* smallFont;
 		ID3DXFont* middleFont;
 
-		draw(IDirect3DDevice9Ex* _pDevice);
+		bool m_initDrawing;
+		bool m_cleanedUp;
+
+	public:
+		draw();
 		~draw();
+
+		void initDrawing(IDirect3DDevice9Ex* pDevice = nullptr);
+		void cleanUp();
+
+		void DrawStringCenter(char* str, _D3DRECT rect, D3DCOLOR color, bool bigFont);
+		void DrawStringLeft(char* str, _D3DRECT rect, D3DCOLOR color, bool bigFont);
+		void DrawFilledRectangle(_D3DRECT rect, D3DCOLOR color);
+
 	};
 
-	void DrawStringCenter(char* str, _D3DRECT rect, D3DCOLOR color, bool bigFont);
-	void DrawStringLeft(char* str, _D3DRECT rect, D3DCOLOR color, bool bigFont);
-	void DrawFilledRectangle(_D3DRECT rect, D3DCOLOR color);
-
-	void initDrawing(IDirect3DDevice9Ex* pDevice = nullptr);
-	void cleanUp();
 	extern std::unique_ptr<draw> gDraw;
 }

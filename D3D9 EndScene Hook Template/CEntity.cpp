@@ -1,6 +1,7 @@
 #include "stdafx.h"
+#include "Signature.hpp"
 #include "CEntity.hpp"
-#include "Offsets.hpp"
+
 
 CEntity::CEntity()
 {
@@ -22,17 +23,17 @@ int CEntity::getId()
 
 DWORD* CEntity::getEntityBase()
 {
-	return (DWORD*)(gOffsets->dwEntityList + ( m_iId * 0x10));
+	return (DWORD*)(gSignature->dwEntityList + ( m_iId * 0x10));
 }
 
 Vector* CEntity::getPosition()
 {
-	return (Vector*)(getEntityBase() + gOffsets->m_vecOrigin);
+	return (Vector*)(getEntityBase() + gSignature->m_vecOrigin);
 }
 
 Vector CEntity::getBonePosition(int bone)
 {
-	DWORD boneMatrix = (DWORD)(getEntityBase() + gOffsets->m_dwBoneMatrix);
+	DWORD boneMatrix = (DWORD)(getEntityBase() + gSignature->m_dwBoneMatrix);
 	Vector dst;
 	dst.x = *(float*)(boneMatrix + 0x30 * bone + 0x0C);
 	dst.y = *(float*)(boneMatrix + 0x30 * bone + 0x1C);
@@ -42,12 +43,12 @@ Vector CEntity::getBonePosition(int bone)
 
 int CEntity::getHealth()
 {
-	return (int)(getEntityBase() + gOffsets->m_iHealth);
+	return (int)(getEntityBase() + gSignature->m_iHealth);
 }
 
 int CEntity::getTeam()
 {
-	return (int)(getEntityBase() + gOffsets->m_iTeamNum);
+	return (int)(getEntityBase() + gSignature->m_iTeamNum);
 }
 
 bool CEntity::isAlive()

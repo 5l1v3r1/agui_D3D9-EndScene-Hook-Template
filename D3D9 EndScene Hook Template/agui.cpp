@@ -33,18 +33,18 @@ namespace agui {
 
 	void guiObj::drawBackground()
 	{
-		DrawFilledRectangle(this->rect, adrawing::DarkGrey);
+		gDraw->DrawFilledRectangle(this->rect, adrawing::DarkGrey);
 	}
 
 	void guiObj::drawBorder()
 	{
-		DrawFilledRectangle({ rect.x1 + BOR, rect.y1 + BOR, rect.x2 - BOR, rect.y2 - BOR }, adrawing::White);
-		DrawFilledRectangle({ rect.x1 + 4, rect.y1 + 4, rect.x2 - 4, rect.y2 - 4 }, adrawing::DarkGrey);
+		gDraw->DrawFilledRectangle({ rect.x1 + BOR, rect.y1 + BOR, rect.x2 - BOR, rect.y2 - BOR }, adrawing::White);
+		gDraw->DrawFilledRectangle({ rect.x1 + 4, rect.y1 + 4, rect.x2 - 4, rect.y2 - 4 }, adrawing::DarkGrey);
 	}
 
 	void guiObj::drawStr()
 	{
-		DrawStringCenter(caption, rect, adrawing::White, bigFont);
+		gDraw->DrawStringCenter(caption, rect, adrawing::White, bigFont);
 	}
 
 	void guiObj::drawExtra()
@@ -110,7 +110,7 @@ namespace agui {
 
 	void titlebar::drawBackground()
 	{
-		DrawFilledRectangle(this->rect, adrawing::BrightBlack);
+		gDraw->DrawFilledRectangle(this->rect, adrawing::BrightBlack);
 	}
 
 	void titlebar::moveWindow() {
@@ -176,16 +176,16 @@ namespace agui {
 
 	void tab::drawBackground()
 	{
-		DrawFilledRectangle(this->rect, adrawing::DarkGrey); // Background
-		DrawFilledRectangle({ rect.x1, rect.y2 - 5, rect.x2, rect.y2 }, adrawing::BrightGrey); // Down line
+		gDraw->DrawFilledRectangle(this->rect, adrawing::DarkGrey); // Background
+		gDraw->DrawFilledRectangle({ rect.x1, rect.y2 - 5, rect.x2, rect.y2 }, adrawing::BrightGrey); // Down line
 		if (this == gFunc->activeTab)
-			DrawFilledRectangle(mRect, adrawing::BrightGrey);
+			gDraw->DrawFilledRectangle(mRect, adrawing::BrightGrey);
 	}
 
 	void tab::drawBorder()
 	{
-		DrawFilledRectangle({ rect.x1, rect.y1 + 5, rect.x1 + 1, rect.y2 - 5 }, adrawing::White);
-		DrawFilledRectangle({ rect.x2 - 1, rect.y1 + 5, rect.x2, rect.y2 - 5 }, adrawing::White);
+		gDraw->DrawFilledRectangle({ rect.x1, rect.y1 + 5, rect.x1 + 1, rect.y2 - 5 }, adrawing::White);
+		gDraw->DrawFilledRectangle({ rect.x2 - 1, rect.y1 + 5, rect.x2, rect.y2 - 5 }, adrawing::White);
 	}
 
 	void tab::functionUpdate()
@@ -225,7 +225,7 @@ namespace agui {
 
 	void frame::drawStr()
 	{
-		DrawStringCenter(caption, rect, adrawing::White, bigFont);
+		gDraw->DrawStringCenter(caption, rect, adrawing::White, bigFont);
 	}
 
 	button::button(char* Caption, bool* btn, window* wPtr, frame* fPtr) :
@@ -249,17 +249,17 @@ namespace agui {
 	void button::drawButton(const MY_D3DRECT& btnRect) {
 
 		mRect = { btnRect.x1 + MAR, btnRect.y1 + MAR, btnRect.x1 + INFRAMEWIDTH, btnRect.y1 + INFRAMEHEIGHT };
-		DrawFilledRectangle(mRect, adrawing::BrightBlack);
+		gDraw->DrawFilledRectangle(mRect, adrawing::BrightBlack);
 		if (lastTick + 100 > GetTickCount())
-			DrawFilledRectangle({ mRect.x1 + BOR, mRect.y1 + BOR, mRect.x2 - BOR, mRect.y2 - BOR }, adrawing::BrightBlack);
+			gDraw->DrawFilledRectangle({ mRect.x1 + BOR, mRect.y1 + BOR, mRect.x2 - BOR, mRect.y2 - BOR }, adrawing::BrightBlack);
 		else
-			DrawFilledRectangle({ mRect.x1 + BOR, mRect.y1 + BOR, mRect.x2 - BOR, mRect.y2 - BOR }, adrawing::BrightGrey);
+			gDraw->DrawFilledRectangle({ mRect.x1 + BOR, mRect.y1 + BOR, mRect.x2 - BOR, mRect.y2 - BOR }, adrawing::BrightGrey);
 
 	}
 
 	void button::drawStr()
 	{
-		DrawStringCenter(caption, mRect, adrawing::White, bigFont);
+		gDraw->DrawStringCenter(caption, mRect, adrawing::White, bigFont);
 	}
 
 	void button::functionUpdate()
@@ -293,24 +293,24 @@ namespace agui {
 
 		int pct = 100 * (*actual) / maximal;
 		mRect = { sldRect.x1 + MAR, sldRect.y1 + MAR, sldRect.x1 + 70, sldRect.y1 + INFRAMEHEIGHT };
-		DrawFilledRectangle(mRect, adrawing::BrightBlack);
+		gDraw->DrawFilledRectangle(mRect, adrawing::BrightBlack);
 		if (pct) {
 			MY_D3DRECT inside = { mRect.x1 + BOR, mRect.y1 + BOR, mRect.x2 - BOR, mRect.y2 - BOR };
 			long full = inside.x2 - inside.x1;
 			full = (full * pct) / 100;
 			inside.x2 = inside.x1 + full;
 			//shrinkSlider(mRect, percent);
-			DrawFilledRectangle(inside, adrawing::BrightGrey);
+			gDraw->DrawFilledRectangle(inside, adrawing::BrightGrey);
 		}
 		char percentStr[20];
 		sprintf_s(percentStr, sizeof(percentStr), "%i", *actual);
-		DrawStringCenter(percentStr, mRect, adrawing::White, bigFont);
+		gDraw->DrawStringCenter(percentStr, mRect, adrawing::White, bigFont);
 	}
 
 	void slider::drawStr()
 	{
-		DrawStringLeft(caption, { rect.x1 + 80, rect.y1 + MAR, rect.x2, rect.y2 }, adrawing::White, bigFont);
-		//DrawStringCenter(caption, { rect.x1 + 80, rect.y1 + MAR, rect.x2, rect.y2 }, *fc, myFont);
+		gDraw->DrawStringLeft(caption, { rect.x1 + 80, rect.y1 + MAR, rect.x2, rect.y2 }, adrawing::White, bigFont);
+		//gDraw->DrawStringCenter(caption, { rect.x1 + 80, rect.y1 + MAR, rect.x2, rect.y2 }, *fc, myFont);
 	}
 
 	void slider::functionUpdate()
@@ -360,15 +360,15 @@ namespace agui {
 	void checkbox::drawCheckbox(const MY_D3DRECT& chbRect) {
 
 		mRect = { chbRect.x1 + MAR, chbRect.y1 + MAR, chbRect.x1 + 30, chbRect.y1 + INFRAMEHEIGHT };
-		DrawFilledRectangle(mRect, adrawing::BrightBlack);
+		gDraw->DrawFilledRectangle(mRect, adrawing::BrightBlack);
 		if (*active)
-			DrawFilledRectangle({ mRect.x1 + BOR, mRect.y1 + BOR, mRect.x2 - BOR, mRect.y2 - BOR }, adrawing::BrightGrey);
+			gDraw->DrawFilledRectangle({ mRect.x1 + BOR, mRect.y1 + BOR, mRect.x2 - BOR, mRect.y2 - BOR }, adrawing::BrightGrey);
 
 	}
 
 	void checkbox::drawStr()
 	{
-		DrawStringLeft(caption, { rect.x1 + 40, rect.y1 + MAR, rect.x2, rect.y2 }, adrawing::White, bigFont);
+		gDraw->DrawStringLeft(caption, { rect.x1 + 40, rect.y1 + MAR, rect.x2, rect.y2 }, adrawing::White, bigFont);
 	}
 
 	void checkbox::functionUpdate()
@@ -402,20 +402,20 @@ namespace agui {
 	void hotkey::drawHotkey(const MY_D3DRECT& hkyRect) {
 
 		mRect = { hkyRect.x1 + MAR, hkyRect.y1 + MAR, hkyRect.x1 + 70, hkyRect.y1 + INFRAMEHEIGHT };
-		DrawFilledRectangle(mRect, adrawing::BrightBlack);
+		gDraw->DrawFilledRectangle(mRect, adrawing::BrightBlack);
 		if (onSearch)
-			DrawFilledRectangle({ mRect.x1 + BOR, mRect.y1 + BOR, mRect.x2 - BOR, mRect.y2 - BOR }, adrawing::BrightBlack);
+			gDraw->DrawFilledRectangle({ mRect.x1 + BOR, mRect.y1 + BOR, mRect.x2 - BOR, mRect.y2 - BOR }, adrawing::BrightBlack);
 		else
-			DrawFilledRectangle({ mRect.x1 + BOR, mRect.y1 + BOR, mRect.x2 - BOR, mRect.y2 - BOR }, adrawing::BrightGrey);
+			gDraw->DrawFilledRectangle({ mRect.x1 + BOR, mRect.y1 + BOR, mRect.x2 - BOR, mRect.y2 - BOR }, adrawing::BrightGrey);
 
 		char percentStr[20];
 		sprintf_s(percentStr, sizeof(percentStr), "key: %i", *myKey);
-		DrawStringCenter(percentStr, mRect, adrawing::White, bigFont);
+		gDraw->DrawStringCenter(percentStr, mRect, adrawing::White, bigFont);
 	}
 
 	void hotkey::drawStr()
 	{
-		DrawStringLeft(caption, { rect.x1 + 80, rect.y1 + MAR, rect.x2, rect.y2 }, adrawing::White, bigFont);
+		gDraw->DrawStringLeft(caption, { rect.x1 + 80, rect.y1 + MAR, rect.x2, rect.y2 }, adrawing::White, bigFont);
 	}
 
 	void hotkey::functionUpdate()
@@ -453,7 +453,7 @@ namespace agui {
 
 	void label::drawStr()
 	{
-		DrawStringLeft(caption, { rect.x1 + PAD, rect.y1 + MAR, rect.x2, rect.y2 }, adrawing::White, bigFont);
+		gDraw->DrawStringLeft(caption, { rect.x1 + PAD, rect.y1 + MAR, rect.x2, rect.y2 }, adrawing::White, bigFont);
 	}
 
 	consoleLabel::consoleLabel(char* Caption, char** ppStr, window* wPtr, frame* fPtr) :
@@ -470,7 +470,7 @@ namespace agui {
 	void consoleLabel::drawStr()
 	{
 		caption = *ptrPtrStr;
-		DrawStringLeft(caption, { rect.x1 + PAD, rect.y1 + MAR, rect.x2, rect.y2 }, adrawing::White, bigFont);
+		gDraw->DrawStringLeft(caption, { rect.x1 + PAD, rect.y1 + MAR, rect.x2, rect.y2 }, adrawing::White, bigFont);
 	}
 
 	textbox::textbox(char* Caption, window* wPtr, frame* fPtr) :
@@ -490,15 +490,15 @@ namespace agui {
 	{
 		mRect = { rect.x1 + MAR, rect.y1 + MAR, rect.x2, rect.y2 };
 		if (onInput)
-			DrawFilledRectangle(mRect, adrawing::BrightBlack);
+			gDraw->DrawFilledRectangle(mRect, adrawing::BrightBlack);
 		else
-			DrawFilledRectangle(mRect, adrawing::BrightGrey);
+			gDraw->DrawFilledRectangle(mRect, adrawing::BrightGrey);
 	}
 
 	void textbox::drawStr()
 	{
-		DrawStringLeft(caption, { rect.x1 + PAD, rect.y1 + MAR, rect.x2, rect.y2 }, adrawing::White, bigFont);
-		//DrawStringCenter(caption, { rect.x1 + 80, rect.y1 + MAR, rect.x2, rect.y2 }, *fc, myFont);
+		gDraw->DrawStringLeft(caption, { rect.x1 + PAD, rect.y1 + MAR, rect.x2, rect.y2 }, adrawing::White, bigFont);
+		//gDraw->DrawStringCenter(caption, { rect.x1 + 80, rect.y1 + MAR, rect.x2, rect.y2 }, *fc, myFont);
 	}
 
 	void textbox::functionUpdate()
@@ -559,15 +559,15 @@ namespace agui {
 		}
 		else {
 			// Front
-			DrawFilledRectangle(mRect, adrawing::BrightGrey);
+			gDraw->DrawFilledRectangle(mRect, adrawing::BrightGrey);
 
 			// String
-			DrawStringLeft(str[*actual], { rect.x1 + PAD, rect.y1 + MAR, rect.x2, rect.y2 }, adrawing::White, bigFont);
+			gDraw->DrawStringLeft(str[*actual], { rect.x1 + PAD, rect.y1 + MAR, rect.x2, rect.y2 }, adrawing::White, bigFont);
 		}
 		// End
 		//DrawFilledRectangle({mRect.x2 - PAD - BOR, mRect.y2 - PAD - BOR, mRect.x2 + BOR, mRect.y2 + BOR }, White);
-		DrawFilledRectangle({ mRect.x2 - PAD, mRect.y2 - PAD, mRect.x2, mRect.y2 }, adrawing::White);
-		DrawFilledRectangle({ mRect.x2 - PAD + BOR, mRect.y2 - PAD + BOR, mRect.x2 - BOR, mRect.y2 - BOR }, adrawing::BrightBlack);
+		gDraw->DrawFilledRectangle({ mRect.x2 - PAD, mRect.y2 - PAD, mRect.x2, mRect.y2 }, adrawing::White);
+		gDraw->DrawFilledRectangle({ mRect.x2 - PAD + BOR, mRect.y2 - PAD + BOR, mRect.x2 - BOR, mRect.y2 - BOR }, adrawing::BrightBlack);
 		//DrawFilledRectangle({mRect.x2 - PAD, mRect.y2 - PAD, mRect.x2, mRect.y2 }, BrightBlack);
 	}
 
@@ -578,11 +578,11 @@ namespace agui {
 		MY_D3DRECT tempRect = { 0,0,0,0 };
 		for (int i = 0; i < maximal; i++) {
 			tempRect = { mRect.x1, mRect.y1 + i * mHeight, mRect.x2, mRect.y2 + i * mHeight };
-			DrawFilledRectangle(tempRect, adrawing::BrightBlack);
+			gDraw->DrawFilledRectangle(tempRect, adrawing::BrightBlack);
 			if (i == *actual) {
-				DrawFilledRectangle({ tempRect.x1 + 1, tempRect.y1 + 1, tempRect.x2 - 1, tempRect.y2 + 1 }, adrawing::BrightGrey);
+				gDraw->DrawFilledRectangle({ tempRect.x1 + 1, tempRect.y1 + 1, tempRect.x2 - 1, tempRect.y2 + 1 }, adrawing::BrightGrey);
 			}
-			DrawStringLeft(str[i], { tempRect.x1 + MAR, tempRect.y1, tempRect.x2, tempRect.y2 }, adrawing::White, bigFont);
+			gDraw->DrawStringLeft(str[i], { tempRect.x1 + MAR, tempRect.y1, tempRect.x2, tempRect.y2 }, adrawing::White, bigFont);
 		}
 	}
 
@@ -654,8 +654,8 @@ namespace agui {
 	guiFunc::~guiFunc()
 	{
 		//// At least i tried
-		//adrawing::gDraw->smallFont->Release();
-		//adrawing::gDraw->middleFont->Release();
+		//gDraw->smallFont->Release();
+		//gDraw->middleFont->Release();
 	}
 	
 	

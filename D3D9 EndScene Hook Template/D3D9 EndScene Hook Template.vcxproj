@@ -172,7 +172,7 @@
     <ClInclude Include="Hook.hpp" />
     <ClInclude Include="ldisasm.h" />
     <ClInclude Include="Netvars.hpp" />
-    <ClInclude Include="Offsets.hpp" />
+    <ClInclude Include="Signature.hpp" />
     <ClInclude Include="Patternscan.hpp" />
     <ClInclude Include="Print.hpp" />
     <ClInclude Include="stdafx.h" />
@@ -192,7 +192,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Hook.cpp" />
     <ClCompile Include="Netvars.cpp" />
-    <ClCompile Include="Offsets.cpp" />
+    <ClCompile Include="Signature.cpp" />
     <ClCompile Include="Patternscan.cpp" />
     <ClCompile Include="Print.cpp" />
     <ClCompile Include="stdafx.cpp">

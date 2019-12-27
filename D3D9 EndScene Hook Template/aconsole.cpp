@@ -6,117 +6,141 @@ namespace aconsole
 	using namespace agui;
 
 	std::unique_ptr<settings_console> sConsole = std::make_unique<settings_console>();
-
-	bool initOneTimeSettingsConsole = false;
-	bool readyForDrawConsole = false;
-
-	constexpr int max_elements = 11;
-	char* arr[max_elements];
-	int index = max_elements - 1;
+	std::unique_ptr<gui_console> gConsole = std::make_unique<gui_console>();
 	
-
-	void initConsoleSettings()
+	gui_console::gui_console()
+		: m_initSettings(false), m_initConsole(false), m_cleanedUp(false),
+		guiFuncConsole(nullptr)
 	{
-		if (initOneTimeSettingsConsole)
+	}
+
+	gui_console::~gui_console()
+	{
+	}
+
+	void gui_console::initSettings()
+	{
+		if (m_initSettings == true)
 			return;
-
-		initOneTimeSettingsConsole = true;
-		readyForDrawConsole = true;
-
-		// MEMSET CRASH ALL
-		//memset(&sConsole, 0, sizeof(sConsole));
 
 		sConsole->wnd_b = true;
 		sConsole->wnd_i = VK_INSERT;
+		currentPos = 0;
 
-		for (int i = 0; i < max_elements; i++)
+		for (int i = 0; i < MAX_ELEMENTS; i++)
+		{
+			sConsole->console_str[i][0] = '\0';
+			sConsole->watch_str[i][0]   = '\0';
+		}
+
+		m_initSettings = true;
+	}
+
+	void gui_console::initConsole()
+	{
+		if (m_initConsole == true)
+			return;
+
+		for (int i = 0; i < MAX_ELEMENTS; i++)
 		{
 			arr[i] = sConsole->console_str[i];
 		}
+
+		guiFuncConsole = new guiFunc;
+		setGuiFunc(guiFuncConsole);
+		guiFuncConsole->init();
+
+		container.push_back(new  window("WindowName", &sConsole->wnd_b, &sConsole->wnd_i, 100, 100, 490, 290));
+		container.push_back(new  titlebar("Console - Press [INSERT]"));
+		container.push_back(new  ribbon("ribbonbar"));
+		container.push_back(new  tab("Console"));
+		container.push_back(new  frame(""));
+		container.push_back(new  consoleLabel("", &arr[0]));
+		container.push_back(new  consoleLabel("", &arr[1]));
+		container.push_back(new  consoleLabel("", &arr[2]));
+		container.push_back(new  consoleLabel("", &arr[3]));
+		container.push_back(new  consoleLabel("", &arr[4]));
+		container.push_back(new  consoleLabel("", &arr[5]));
+		container.push_back(new  consoleLabel("", &arr[6]));
+		container.push_back(new  consoleLabel("", &arr[7]));
+		container.push_back(new  consoleLabel("", &arr[8]));
+		container.push_back(new  consoleLabel("", &arr[9]));
+		container.push_back(new  consoleLabel("", &arr[10]));
+
+
+		container.push_back(new  tab("Watch"));
+		container.push_back(new  frame(""));
+
+		//[ Position ] [ File, Line ] [ Function ] >> Output");
+		container.push_back(new  label(sConsole->watch_str[0]));
+		container.push_back(new  label(sConsole->watch_str[1]));
+		container.push_back(new  label(sConsole->watch_str[2]));
+		container.push_back(new  label(sConsole->watch_str[3]));
+		container.push_back(new  label(sConsole->watch_str[4]));
+		container.push_back(new  label(sConsole->watch_str[5]));
+		container.push_back(new  label(sConsole->watch_str[6]));
+		container.push_back(new  label(sConsole->watch_str[7]));
+
+		m_initConsole = true;
 	}
 
-	void cleanUpConsole()
+	void gui_console::cleanUpConsole()
 	{
-		readyForDrawConsole = false;
-	}
-
-
-	void printToConsole(const char* str)
-	{
-		if (readyForDrawConsole == false)
+		if (m_cleanedUp == true)
 			return;
 
-		// resort
-		char* last = arr[0];
-		for (int i = 0; i < max_elements - 1; i++)
+		m_cleanedUp = true;
+
+		for (auto o : container)
+			free(o);
+	}
+
+
+	void gui_console::drawConsole() 
+	{
+		if (m_initSettings == false)
+			return;
+
+		if (m_initConsole == false)
+			return;
+
+		if (m_cleanedUp == true)
+			return;
+
+		// Resort Array
+		int j = sConsole->lastElement;
+		for (int i = 0; i < MAX_ELEMENTS; i)
 		{
-			arr[i] = arr[i + 1];
+			if (++j == MAX_ELEMENTS)
+				j = 0;
+
+			arr[i] = sConsole->console_str[j];
 		}
-		arr[max_elements - 1] = last;
 
-		sprintf_s(&arr[index][0], 149, str);
-		index++;
-		if (index == max_elements)
-			index = max_elements - 1;
+		setGuiFunc(guiFuncConsole);
+		guiFuncConsole->drawAll();
 	}
 
-	void printToWatchList(int pos, const char* str)
+	void gui_console::printToConsole(const char* str)
 	{
-		if (readyForDrawConsole == false)
+		if (m_initSettings == false)
 			return;
 
-		if (pos > 7)
-			pos = 7;
+		if (++sConsole->lastElement == MAX_ELEMENTS)
+			sConsole->lastElement = 0;
 
-		//sprintf();
-		//memset(&sConsole->watch_str[pos][0], '\0', 150);
-		sprintf_s(&sConsole->watch_str[pos][0], 149, str);
+		sprintf_s(sConsole->console_str[sConsole->lastElement], MAX_LENGTH, str);
 	}
 
-	// THIS IS YOUR MENU
-	void drawConsole() 
+	void gui_console::printToWatchList(int pos, const char* str)
 	{
-		initConsoleSettings();
-
-		if (readyForDrawConsole == false)
+		if (m_initSettings == false)
 			return;
 
-		static auto gui = new guiFunc;
-		setGuiFunc(gui);
-		gui->init();
+		if (pos > MAX_WATCHLIST)
+			pos = MAX_WATCHLIST - 1;
 
-		static auto wnd = window("WindowName", &sConsole->wnd_b, &sConsole->wnd_i, 100, 100, 490, 290);
-		static auto tit = titlebar("Console - Press [INSERT]");
-		static auto rib = ribbon("ribbonbar");
-		static auto tab1 = tab("Console");
-		static auto fm1 = frame("");
-		static auto cl0 = consoleLabel("", &arr[0]);
-		static auto cl1 = consoleLabel("", &arr[1]);
-		static auto cl2 = consoleLabel("", &arr[2]);
-		static auto cl3 = consoleLabel("", &arr[3]);
-		static auto cl4 = consoleLabel("", &arr[4]);
-		static auto cl5 = consoleLabel("", &arr[5]);
-		static auto cl6 = consoleLabel("", &arr[6]);
-		static auto cl7 = consoleLabel("", &arr[7]);
-		static auto cl8 = consoleLabel("", &arr[8]);
-		static auto cl9 = consoleLabel("", &arr[9]);
-		static auto cl10 = consoleLabel("", &arr[10]);
-
-
-		static auto tab2 = tab("Watch");
-		static auto fm2 = frame("");
-
-		//static auto lblName = label("[ Position ] [ File, Line ] [ Function ] >> Output");
-		static auto lbl00 = label(sConsole->watch_str[0]);
-		static auto lbl01 = label(sConsole->watch_str[1]);
-		static auto lbl02 = label(sConsole->watch_str[2]);
-		static auto lbl03 = label(sConsole->watch_str[3]);
-		static auto lbl04 = label(sConsole->watch_str[4]);
-		static auto lbl05 = label(sConsole->watch_str[5]);
-		static auto lbl06 = label(sConsole->watch_str[6]);
-		static auto lbl07 = label(sConsole->watch_str[7]);
-
-
-		gui->drawAll();
+		sprintf_s(sConsole->watch_str[pos], MAX_LENGTH, str);
 	}
+
 }
