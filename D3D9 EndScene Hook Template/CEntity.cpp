@@ -11,30 +11,22 @@ CEntity::~CEntity()
 {
 }
 
-void CEntity::setId(int i)
+CEntity* CEntity::getEntity(int index)
 {
-	m_iId = i;
+	uintptr_t entityList = (uintptr_t)(gSignature->dwEntityList);
+	return (CEntity*)(entityList + index * 0x10);
 }
 
-int CEntity::getId()
+
+Vector3 CEntity::getPosition()
 {
-	return m_iId;
+	return *(Vector3*)(*(uintptr_t*)this + gSignature->m_vecOrigin);
 }
 
-DWORD* CEntity::getEntityBase()
+Vector3 CEntity::getBonePosition(int bone)
 {
-	return (DWORD*)(gSignature->dwEntityList + ( m_iId * 0x10));
-}
-
-Vector* CEntity::getPosition()
-{
-	return (Vector*)(getEntityBase() + gSignature->m_vecOrigin);
-}
-
-Vector CEntity::getBonePosition(int bone)
-{
-	DWORD boneMatrix = (DWORD)(getEntityBase() + gSignature->m_dwBoneMatrix);
-	Vector dst;
+	uintptr_t boneMatrix = *(uintptr_t*)(*(uintptr_t*)this + gSignature->m_dwBoneMatrix);
+	Vector3 dst;
 	dst.x = *(float*)(boneMatrix + 0x30 * bone + 0x0C);
 	dst.y = *(float*)(boneMatrix + 0x30 * bone + 0x1C);
 	dst.z = *(float*)(boneMatrix + 0x30 * bone + 0x2C);
@@ -43,15 +35,25 @@ Vector CEntity::getBonePosition(int bone)
 
 int CEntity::getHealth()
 {
-	return (int)(getEntityBase() + gSignature->m_iHealth);
+	return *(int*)(*(uintptr_t*)this + gSignature->m_iHealth);
 }
 
 int CEntity::getTeam()
 {
-	return (int)(getEntityBase() + gSignature->m_iTeamNum);
+	return *(int*)(*(uintptr_t*)this + gSignature->m_iTeamNum);
 }
 
 bool CEntity::isAlive()
 {
 	return getHealth() > 0 ? true : false;
+}
+
+bool CEntity::isDead()
+{
+	return !isAlive();
+}
+
+bool CEntity::isDormant()
+{
+	return *(bool*)(*(uintptr_t*)this + gSignature->m_bDormant);
 }

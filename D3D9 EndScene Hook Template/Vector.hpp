@@ -1,12 +1,12 @@
 #pragma once
 
 
-class Vector;
+class Vector3;
 struct matrix3x3;
 struct matrix3x4_t;
-typedef Vector QAngle;
+typedef Vector3 QAngle;
 
-class Vector
+class Vector3
 {
 public:
     union
@@ -20,52 +20,52 @@ public:
     };
 
 public:
-    Vector(void);
-    Vector(float x, float y, float z);
-    Vector(const Vector& vec);
-    Vector operator +(const Vector& other);
-    Vector operator +(const float& other);
-    Vector operator +=(const Vector& other);
-    Vector operator +=(const float& other);
-    Vector operator -(const Vector& other);
-    Vector operator -(const float& other);
-    Vector operator -=(const Vector& other);
-    Vector operator -=(const float& other);
-    Vector operator *(const Vector& other);
-    Vector operator *(const float& other);
-    Vector operator *=(const Vector& other);
-    Vector operator *=(const float& other);
-    Vector operator /(const Vector& other);
-    Vector operator /(const float& other);
-    Vector operator /=(const Vector& other);
-    Vector operator /=(const float& other);
-    Vector& operator =(const Vector& other);
-    Vector operator =(const float& other);
-    const bool operator ==(const Vector& other) const;
+    Vector3(void);
+    Vector3(float x, float y, float z);
+    Vector3(const Vector3& vec);
+    Vector3 operator +(const Vector3& other);
+    Vector3 operator +(const float& other);
+    Vector3 operator +=(const Vector3& other);
+    Vector3 operator +=(const float& other);
+    Vector3 operator -(const Vector3& other);
+    Vector3 operator -(const float& other);
+    Vector3 operator -=(const Vector3& other);
+    Vector3 operator -=(const float& other);
+    Vector3 operator *(const Vector3& other);
+    Vector3 operator *(const float& other);
+    Vector3 operator *=(const Vector3& other);
+    Vector3 operator *=(const float& other);
+    Vector3 operator /(const Vector3& other);
+    Vector3 operator /(const float& other);
+    Vector3 operator /=(const Vector3& other);
+    Vector3 operator /=(const float& other);
+    Vector3& operator =(const Vector3& other);
+    Vector3 operator =(const float& other);
+    const bool operator ==(const Vector3& other) const;
     const bool operator ==(const float& other) const;
-    const bool operator !=(const Vector& other) const;
+    const bool operator !=(const Vector3& other) const;
     const bool operator !=(const float& other) const;
-    const bool operator <(const Vector& other) const;
+    const bool operator <(const Vector3& other) const;
     const bool operator <(const float& other) const;
-    const bool operator <=(const Vector& other) const;
+    const bool operator <=(const Vector3& other) const;
     const bool operator <=(const float& other) const;
-    const bool operator >(const Vector& other) const;
+    const bool operator >(const Vector3& other) const;
     const bool operator >(const float& other) const;
-    const bool operator >=(const Vector& other) const;
+    const bool operator >=(const Vector3& other) const;
     const bool operator >=(const float& other) const;
     float& operator [](int iIndex);
     const float& operator [](int iIndex) const;
     const bool empty(void) const;
-    const float DotProduct(const Vector& other) const;
+    const float DotProduct(const Vector3& other) const;
     const float DotProduct(const float* other) const;
-    const Vector CrossProduct(const Vector& other);
+    const Vector3 CrossProduct(const Vector3& other);
     float GetLengthXYZ(void);
     float GetLengthXY(void);
     float GetLength3D(void);
     float GetLength2D(void);
     void Init(float x, float y, float z);
-    void Init(Vector& vec);
-    void Init(const Vector& vec);
+    void Init(Vector3& vec);
+    void Init(const Vector3& vec);
     void Normalize(void);
     void NormalizeInPlace(void);
 };
@@ -99,7 +99,7 @@ struct matrix3x4_t
     // Creates a matrix where the X axis = forward
     // the Y axis = left, and the Z axis = up
     //-----------------------------------------------------------------------------
-    void Init(const Vector& xAxis, const Vector& yAxis, const Vector& zAxis, const Vector& vecOrigin)
+    void Init(const Vector3& xAxis, const Vector3& yAxis, const Vector3& zAxis, const Vector3& vecOrigin)
     {
         m_flMatVal[0][0] = xAxis.x;
         m_flMatVal[0][1] = yAxis.x;
@@ -119,12 +119,12 @@ struct matrix3x4_t
     // Creates a matrix where the X axis = forward
     // the Y axis = left, and the Z axis = up
     //-----------------------------------------------------------------------------
-    matrix3x4_t(const Vector& xAxis, const Vector& yAxis, const Vector& zAxis, const Vector& vecOrigin)
+    matrix3x4_t(const Vector3& xAxis, const Vector3& yAxis, const Vector3& zAxis, const Vector3& vecOrigin)
     {
         Init(xAxis, yAxis, zAxis, vecOrigin);
     }
 
-    inline void SetOrigin(Vector const& p)
+    inline void SetOrigin(Vector3 const& p)
     {
         m_flMatVal[0][3] = p.x;
         m_flMatVal[1][3] = p.y;
@@ -156,8 +156,8 @@ struct matrix3x4_t
 
 struct AABB
 {
-    Vector vMin;
-    Vector vMax;
+    Vector3 vMin;
+    Vector3 vMax;
 };
 
-const Vector vec_origin(0, 0, 0);
+const Vector3 vec_origin(0, 0, 0);

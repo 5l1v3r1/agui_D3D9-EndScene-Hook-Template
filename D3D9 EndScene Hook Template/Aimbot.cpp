@@ -1,7 +1,101 @@
 #include "stdafx.h"
 #include "CLocalPlayer.hpp"
 #include "CEntity.hpp"
+#include "Engine.hpp"
 #include "Aimbot.hpp"
+#include "Print.hpp"
+
+void Aimbot::getEnemyList(std::vector<CEntity*>& enemyList)
+{
+	CClientState* cs = CClientState::getClientState();
+	if (!cs->isIngame())
+		return;
+
+	CLocalPlayer* localPlayer = CLocalPlayer::getLocalPlayer();
+	if (!localPlayer)
+		return;
+
+	if (!(*(uint32_t*)localPlayer))
+		return;
+
+	for (int i = 1; i < cs->getMaxPlayer(); i++)
+	{
+		CEntity* entity = CEntity::getEntity(i);
+		if (!entity)
+			continue;
+
+		if (!(*(uint32_t*)entity))
+			continue;
+
+		if ((uintptr_t*)entity == (uintptr_t*)localPlayer)
+			continue;
+
+		if (entity->isDead())
+			continue;
+
+		if (entity->isDormant())
+			continue;
+
+		if (entity->getTeam() == localPlayer->getTeam())
+			continue;
+
+		enemyList.push_back(entity);
+	}
+}
+
+Vector3 Aimbot::calcAngle(Vector3 src, Vector3 dst)
+{
+	Vector3 angles;
+
+	Vector3 delta = src - dst;
+	float hyp = delta.GetLengthXYZ();
+	angles.x = atanf(delta.z / hyp) * 180.0f / 3.141592f;
+	angles.y = atanf(delta.y / delta.x) * 180.0f / 3.141592f;
+	angles.z = 0.0f;
+
+	if (delta.x >= 0.0f)
+		angles.y += 180.0f;
+
+	return angles;
+}
+
+
+Vector3 Aimbot::normalize(Vector3 src)
+{
+	while (src.y > 180)
+		src.y -= 360;
+
+	while (src.y < -180)
+		src.y += 360;
+
+	if (src.x > 89.0f)
+		src.x = 89.0f;
+
+	if (src.x < -89.0f)
+		src.x = -89.0f;
+
+	return src;
+}
+
+Vector3 Aimbot::smoothIt(Vector3 src, Vector3 dst)
+{
+	
+	src = normalize(src);
+	dst = normalize(dst);
+
+	Vector3 dif = dst - src;
+
+	dif = normalize(dif);//!!!!!!!!!!!!!!!!!!!!!
+
+
+	dst.x = src.x + dif.x / 32;
+	if (dif.y < 180.0f)
+		dst.y = src.y + (dif.y / 64);
+	else
+		dst.y = src.y - (dif.y / 64);
+
+	return dst;
+}
 
 Aimbot::Aimbot()
 {
@@ -13,19 +107,43 @@ Aimbot::~Aimbot()
 
 void Aimbot::Run()
 {
-	CLocalPlayer lPlayer;
-	auto i = lPlayer.getHealth();
-}
+	std::vector<CEntity*>  eList;
+	CEntity* bestTarget = nullptr;
+	Vector3  bestTargetBone;
+	QAngle   bestTargetAngle;
+	float	 bestTargetAngleDif = 90.0f;
+	
+	getEnemyList(eList);
 
-Vector Aimbot::normalize(Vector src)
-{
-	return Vector();
-}
+	if (eList.empty())
+		return;
 
-Vector Aimbot::smoothIt(Vector src, Vector des)
-{
-	return Vector();
-}
+	Vector3 localPos	= CLocalPlayer::getLocalPlayer()->getPosition();
+	Vector3 localEyePos	= localPos + CLocalPlayer::getLocalPlayer()->getViewOffset();
+	QAngle  localView	= CClientState::getClientState()->getViewAngle();
 
+	for (auto e : eList)
+	{
+		Vector3 entityBonePos		= e->getBonePosition(8);
+		QAngle angleToBone			= calcAngle(localEyePos, entityBonePos);
+		QAngle angleToBoneNorm		= normalize(angleToBone);
+		QAngle angleDif				= localView - angleToBoneNorm;
+		float  angleDifDistance		= angleDif.GetLength3D();
+
+		if (angleDifDistance < bestTargetAngleDif)
+		{
+			bestTarget			= e;
+			bestTargetBone		= entityBonePos;
+			bestTargetAngle		= angleToBoneNorm;
+			bestTargetAngleDif  = angleDifDistance;
+		}
+	}
+	if (bestTarget)
+	{
+		WATCH(4, "%0.2f", bestTargetAngleDif);
+		Vector3 angleSmooth = smoothIt(localView, bestTargetAngle);
+		CClientState::getClientState()->setViewAngle(angleSmooth);
+	}
+}
 
 std::unique_ptr<Aimbot> g_aimbot = std::make_unique<Aimbot>();

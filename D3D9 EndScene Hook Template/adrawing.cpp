@@ -61,6 +61,7 @@ namespace adrawing
 		smallFont  = nullptr;
 		middleFont = nullptr;
 		device     = nullptr;
+		m_cleanedUp = true;
 	}
 
 	void draw::DrawStringCenter(char* str, _D3DRECT rect, D3DCOLOR color, bool bigFont)

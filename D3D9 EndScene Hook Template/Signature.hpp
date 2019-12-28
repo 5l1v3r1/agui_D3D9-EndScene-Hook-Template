@@ -29,6 +29,8 @@
 
 		// engine.dll + dwClientState
 		ptrdiff_t dwClientState_ViewAngles;
+		ptrdiff_t dwClientState_MaxPlayer;
+		ptrdiff_t dwClientState_State;
 
 
 		// Netvars
@@ -46,6 +48,7 @@
 		ptrdiff_t m_iShotsFired;
 		ptrdiff_t m_lifeState;
 		ptrdiff_t m_vecOrigin;
+		ptrdiff_t m_vecViewOffset;
 		ptrdiff_t m_dwBoneMatrix;
 
 		// client_panorama.dll + dwGlowObjectManager

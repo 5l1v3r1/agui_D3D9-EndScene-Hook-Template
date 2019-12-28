@@ -33,8 +33,20 @@
     <Filter Include="Cheat">
       <UniqueIdentifier>{ed340e00-38b3-4565-ae86-32255798a779}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Signature">
+    <Filter Include="Memory\Signature">
       <UniqueIdentifier>{c63cdd60-f601-49ec-b094-c46354c786f6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Memory\PatternScan">
+      <UniqueIdentifier>{9cfd9edc-0c86-4a6b-be69-0841c2134ed3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Memory\Hook">
+      <UniqueIdentifier>{19efd746-652c-4f0e-a63f-da710d987141}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Cheat\Aimbot">
+      <UniqueIdentifier>{ffb3bb5e-964b-4dbb-9103-98785be539e7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Cheat\ESP">
+      <UniqueIdentifier>{d757febe-8663-4413-86c2-45c8affe2dd2}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -59,26 +71,14 @@
     <ClInclude Include="amenu.hpp">
       <Filter>agui</Filter>
     </ClInclude>
-    <ClInclude Include="Hook.hpp">
-      <Filter>Memory</Filter>
-    </ClInclude>
     <ClInclude Include="gh_d3d9.h">
       <Filter>d3d9hook</Filter>
     </ClInclude>
     <ClInclude Include="Print.hpp">
       <Filter>Print</Filter>
     </ClInclude>
-    <ClInclude Include="fake_ntdll.h">
-      <Filter>Memory</Filter>
-    </ClInclude>
-    <ClInclude Include="Patternscan.hpp">
-      <Filter>Memory</Filter>
-    </ClInclude>
     <ClInclude Include="Netvars.hpp">
       <Filter>SDK</Filter>
-    </ClInclude>
-    <ClInclude Include="ldisasm.h">
-      <Filter>Memory</Filter>
     </ClInclude>
     <ClInclude Include="Vector.hpp">
       <Filter>Vector</Filter>
@@ -89,11 +89,26 @@
     <ClInclude Include="CLocalPlayer.hpp">
       <Filter>SDK</Filter>
     </ClInclude>
-    <ClInclude Include="Aimbot.hpp">
-      <Filter>Cheat</Filter>
-    </ClInclude>
     <ClInclude Include="Signature.hpp">
-      <Filter>Signature</Filter>
+      <Filter>Memory\Signature</Filter>
+    </ClInclude>
+    <ClInclude Include="Patternscan.hpp">
+      <Filter>Memory\PatternScan</Filter>
+    </ClInclude>
+    <ClInclude Include="fake_ntdll.h">
+      <Filter>Memory\PatternScan</Filter>
+    </ClInclude>
+    <ClInclude Include="ldisasm.h">
+      <Filter>Memory\Hook</Filter>
+    </ClInclude>
+    <ClInclude Include="Hook.hpp">
+      <Filter>Memory\Hook</Filter>
+    </ClInclude>
+    <ClInclude Include="Aimbot.hpp">
+      <Filter>Cheat\Aimbot</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine.hpp">
+      <Filter>SDK</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -118,17 +133,11 @@
     <ClCompile Include="amenu.cpp">
       <Filter>agui</Filter>
     </ClCompile>
-    <ClCompile Include="Hook.cpp">
-      <Filter>Memory</Filter>
-    </ClCompile>
     <ClCompile Include="gh_d3d9.cpp">
       <Filter>d3d9hook</Filter>
     </ClCompile>
     <ClCompile Include="Print.cpp">
       <Filter>Print</Filter>
-    </ClCompile>
-    <ClCompile Include="Patternscan.cpp">
-      <Filter>Memory</Filter>
     </ClCompile>
     <ClCompile Include="Netvars.cpp">
       <Filter>SDK</Filter>
@@ -142,11 +151,20 @@
     <ClCompile Include="CLocalPlayer.cpp">
       <Filter>SDK</Filter>
     </ClCompile>
-    <ClCompile Include="Aimbot.cpp">
-      <Filter>Cheat</Filter>
-    </ClCompile>
     <ClCompile Include="Signature.cpp">
-      <Filter>Signature</Filter>
+      <Filter>Memory\Signature</Filter>
+    </ClCompile>
+    <ClCompile Include="Patternscan.cpp">
+      <Filter>Memory\PatternScan</Filter>
+    </ClCompile>
+    <ClCompile Include="Hook.cpp">
+      <Filter>Memory\Hook</Filter>
+    </ClCompile>
+    <ClCompile Include="Aimbot.cpp">
+      <Filter>Cheat\Aimbot</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine.cpp">
+      <Filter>SDK</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

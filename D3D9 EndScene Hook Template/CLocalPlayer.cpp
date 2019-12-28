@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "CLocalPlayer.hpp"
 #include "Signature.hpp"
+#include "Engine.hpp"
 
 
 CLocalPlayer::CLocalPlayer()
@@ -11,29 +12,39 @@ CLocalPlayer::~CLocalPlayer()
 {
 }
 
-DWORD* CLocalPlayer::getPlayerBase()
+CLocalPlayer* CLocalPlayer::getLocalPlayer()
 {
-	return (DWORD*)(gSignature->dwLocalPlayer);
+	return (CLocalPlayer*)(gSignature->dwLocalPlayer);
 }
 
-Vector* CLocalPlayer::getViewAngle()
+Vector3 CLocalPlayer::getViewAngle()
 {
-	return (Vector*)(gSignature->dwClientState + gSignature->dwClientState_ViewAngles);
+	return CClientState::getClientState()->getViewAngle();
 }
 
-Vector* CLocalPlayer::getPosition()
+Vector3 CLocalPlayer::getPosition()
 {
-	return (Vector*)(*getPlayerBase() + gSignature->m_vecOrigin);
+	return *(Vector3*)(*(uintptr_t*)this + gSignature->m_vecOrigin);
+}
+
+Vector3 CLocalPlayer::getViewOffset()
+{
+	return *(Vector3*)(*(uintptr_t*)this + gSignature->m_vecViewOffset);
+}
+
+void CLocalPlayer::setViewAngle(Vector3& des)
+{
+	CClientState::getClientState()->setViewAngle(des);
 }
 
 int CLocalPlayer::getTeam()
 {
-	return (int)(*getPlayerBase() + gSignature->m_iTeamNum);
+	return *(int*)(*(uintptr_t*)this + gSignature->m_iTeamNum);
 }
 
 int CLocalPlayer::getHealth()
 {
-	return (int)(*getPlayerBase() + gSignature->m_iHealth);
+	return *(int*)(*(uintptr_t*)this + gSignature->m_iHealth);
 }
 
 bool CLocalPlayer::isAlive()

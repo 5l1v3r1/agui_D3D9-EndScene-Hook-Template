@@ -18,7 +18,7 @@
 	{
 
 		dwLocalPlayer = *(DWORD*)ScanModIn("8D 34 85 ? ? ? ? 89 15 ? ? ? ? 8B 41 08 8B 48 04 83 F9 FF", 0x3, "client_panorama.dll") + 4;
-		dwEntityList = *(DWORD*)ScanModIn("BB ? ? ? ? 83 FF 01 0F 8C ? ? ? ? 3B F8", 0x1, "client_panorama.dll") + 4;
+		dwEntityList = *(DWORD*)ScanModIn("BB ? ? ? ? 83 FF 01 0F 8C ? ? ? ? 3B F8", 0x1, "client_panorama.dll");
 		dwForceJump = *(DWORD*)ScanModIn("8B 0D ? ? ? ? 8B D6 8B C1 83 CA 02", 0x2, "client_panorama.dll");
 		dwForceAttack = *(DWORD*)ScanModIn("89 0D ? ? ? ? 8B 0D ? ? ? ? 8B F2 8B C1 83 CE 04", 0x2, "client_panorama.dll");
 		dwGlowObjectManager = *(DWORD*)ScanModIn("A1 ? ? ? ? A8 01 75 4B", 0x1, "client_panorama.dll");
@@ -30,6 +30,8 @@
 		model_ambient_min = *(DWORD*)ScanModIn("F3 0F 10 0D ? ? ? ? F3 0F 11 4C 24 ? 8B 44 24 20 35 ? ? ? ? 89 44 24 0C", 0x4, "engine.dll");
 		dwClientState = *(DWORD*)ScanModIn("A1 ? ? ? ? 33 D2 6A 00 6A 00 33 C9 89 B0", 0x1, "engine.dll");
 		dwClientState_ViewAngles = *(DWORD*)ScanModIn("F3 0F 11 80 ? ? ? ? D9 46 04 D9 05", 0x4, "engine.dll");
+		dwClientState_MaxPlayer = *(DWORD*)ScanModIn("A1 ? ? ? ? 8B 80 ? ? ? ? C3 CC CC CC CC 55 8B EC 8A 45 08", 0x7, "engine.dll");
+		dwClientState_State = *(DWORD*)ScanModIn("83 B8 ? ? ? ? ? 0F 94 C0 C3", 0x2, "engine.dll");
 
 	}
 
@@ -48,6 +50,7 @@
 		m_iShotsFired = GetNetVarOffset("DT_CSPlayer", "m_iShotsFired", (ClientClass*)dwGetAllClasses);
 		m_lifeState = GetNetVarOffset("DT_CSPlayer", "m_lifeState", (ClientClass*)dwGetAllClasses);
 		m_vecOrigin = GetNetVarOffset("DT_BasePlayer", "m_vecOrigin", (ClientClass*)dwGetAllClasses);
+		m_vecViewOffset = GetNetVarOffset("DT_CSPlayer", "m_vecViewOffset[0]", (ClientClass*)dwGetAllClasses);
 		m_dwBoneMatrix = GetNetVarOffset("DT_BaseAnimating", "m_nForceBone", (ClientClass*)dwGetAllClasses) + 28;
 	}
 

@@ -2,24 +2,23 @@
 #include <Windows.h>
 #include "Vector.hpp"
 
+
 class CEntity
 {
 private:
-	int m_iId;
-
-public:
 	CEntity();
 	~CEntity();
 
-	void setId(int i);
-	int  getId();
+public:
+	static CEntity* getEntity(int index);
 
-	DWORD*	getEntityBase();
-	Vector* getPosition();
-	Vector  getBonePosition(int bone);
+	Vector3  getPosition();
+	Vector3  getBonePosition(int bone);
 
 	int getHealth();
 	int getTeam();
 	bool isAlive();
+	bool isDead();
+	bool isDormant();
 
 };

@@ -109,7 +109,7 @@ namespace aconsole
 
 		// Resort Array
 		int j = sConsole->lastElement;
-		for (int i = 0; i < MAX_ELEMENTS; i)
+		for (int i = 0; i < MAX_ELEMENTS; i++)
 		{
 			if (++j == MAX_ELEMENTS)
 				j = 0;

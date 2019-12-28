@@ -13,7 +13,6 @@
 - https://guidedhacking.com/resources/guided-hacking-offset-dumper-gh-offset-dumper.51/
 - https://github.com/frk1/hazedumper
 - https://guidedhacking.com/threads/length-disassembler-x86-x64.14233/#post-86058
-- frk
 
 ## Picture
 ![alt text](https://i.imgur.com/YZ0OxVZ.png)

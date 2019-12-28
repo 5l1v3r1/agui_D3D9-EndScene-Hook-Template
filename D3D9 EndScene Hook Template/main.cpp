@@ -9,7 +9,15 @@
 #include "Signature.hpp"
 #include "Aimbot.hpp"
 
-bool bInit = false;
+enum STATE
+{
+	INIT,
+	DRAW,
+	CLEAN,
+	FINISH
+};
+
+STATE bState = INIT;
 TrampHook thEndScene;
 tEndScene oEndScene = nullptr;
 LPDIRECT3DDEVICE9 pD3DDevice = nullptr;
@@ -17,30 +25,41 @@ void* d3d9Device[119];
 
 HRESULT APIENTRY hkEndScene(LPDIRECT3DDEVICE9 pDevice)
 {
-	if (bInit == false)
+	if (bState == STATE::INIT)
 	{
 		pD3DDevice = pDevice;
-		bInit = true;
 		adrawing::gDraw->initDrawing((IDirect3DDevice9Ex*)pDevice);
 		amenu::gMenu->initSettings();
 		amenu::gMenu->initMenu();
 		aconsole::gConsole->initSettings();
 		aconsole::gConsole->initConsole();
+		bState = STATE::DRAW;
+	}
+
+	if (bState == STATE::DRAW)
+	{
+		amenu::gMenu->drawMenu();
+		aconsole::gConsole->drawConsole();
+
+		static int counter = 0;
+		if (counter < 4)
+			INGAME("I'm the counter 0x%p, %i", &counter, counter);
+
+		WATCH(0, "%s", "I'm in a Loop");
+		WATCH(1, "%p, %i", &counter, counter++);
+
+	}
+
+	if (bState == STATE::CLEAN)
+	{
+		adrawing::gDraw->cleanUp();
+		amenu::gMenu->cleanUpMenu();
+		aconsole::gConsole->cleanUpConsole();
+		bState = STATE::FINISH;
 	}
 
 	//draw stuff here like so:
 	//DrawFilledRect(200, 200, 200, 200, D3DCOLOR_ARGB(255, 255, 0, 0), pDevice);
-
-	amenu::gMenu->drawMenu();
-	aconsole::gConsole->drawConsole();
-
-	static int counter = 0;
-
-	WATCH(0, "%s", "I'm in a Loop");
-	WATCH(1, "%p, %i", &counter, counter++);
-
-	if (counter < 20)
-		INGAME("I'm the counter 0x%p, %i", &counter, counter);
 
 	return oEndScene(pDevice);
 }
@@ -64,9 +83,10 @@ DWORD WINAPI Init(HMODULE hModule)
 		Sleep(1);
 	}
 
-	adrawing::gDraw->cleanUp();
-	amenu::gMenu->cleanUpMenu();
-	aconsole::gConsole->cleanUpConsole();
+	bState = STATE::CLEAN;
+	while (bState != STATE::FINISH)
+		Sleep(1);
+
 	thEndScene.trampUnhook();
 	Sleep(200);
 	FreeLibraryAndExitThread(hModule, 0);

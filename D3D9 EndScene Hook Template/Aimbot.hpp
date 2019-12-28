@@ -1,17 +1,26 @@
 #pragma once
 #include <memory>
+#include <vector>
+#include <algorithm>
+#include "CEntity.hpp"
 #include "Vector.hpp"
 
 class Aimbot
 {
+	void getEnemyList(std::vector<CEntity*>& enemyList);
+	//void getBestTarget(std::vector<CEntity*>& enemyList);
+	Vector3 calcAngle(Vector3 src, Vector3 des);
+	Vector3 normalize(Vector3 src);
+	Vector3 smoothIt(Vector3 src, Vector3 dst);
+
+
+
 public:
 	Aimbot();
 	~Aimbot();
 
 	void Run();
 
-	Vector normalize(Vector src);
-	Vector smoothIt(Vector src, Vector des);
 
 };
 

@@ -167,6 +167,7 @@
     <ClInclude Include="amenu.hpp" />
     <ClInclude Include="CEntity.hpp" />
     <ClInclude Include="CLocalPlayer.hpp" />
+    <ClInclude Include="Engine.hpp" />
     <ClInclude Include="fake_ntdll.h" />
     <ClInclude Include="gh_d3d9.h" />
     <ClInclude Include="Hook.hpp" />
@@ -188,6 +189,7 @@
     <ClCompile Include="amenu.cpp" />
     <ClCompile Include="CEntity.cpp" />
     <ClCompile Include="CLocalPlayer.cpp" />
+    <ClCompile Include="Engine.cpp" />
     <ClCompile Include="gh_d3d9.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Hook.cpp" />
