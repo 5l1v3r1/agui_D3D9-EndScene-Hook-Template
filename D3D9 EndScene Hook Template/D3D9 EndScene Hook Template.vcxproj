@@ -167,17 +167,23 @@
     <ClInclude Include="amenu.hpp" />
     <ClInclude Include="CEntity.hpp" />
     <ClInclude Include="CLocalPlayer.hpp" />
+    <ClInclude Include="Color.hpp" />
+    <ClInclude Include="D3DImage.h" />
     <ClInclude Include="Engine.hpp" />
     <ClInclude Include="fake_ntdll.h" />
+    <ClInclude Include="FileNameXY.h" />
     <ClInclude Include="gh_d3d9.h" />
+    <ClInclude Include="Halo.h" />
     <ClInclude Include="Hook.hpp" />
     <ClInclude Include="ldisasm.h" />
     <ClInclude Include="Netvars.hpp" />
+    <ClInclude Include="Render.hpp" />
     <ClInclude Include="Signature.hpp" />
     <ClInclude Include="Patternscan.hpp" />
     <ClInclude Include="Print.hpp" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
+    <ClInclude Include="TimeManager.h" />
     <ClInclude Include="Vector.hpp" />
   </ItemGroup>
   <ItemGroup>
@@ -189,11 +195,13 @@
     <ClCompile Include="amenu.cpp" />
     <ClCompile Include="CEntity.cpp" />
     <ClCompile Include="CLocalPlayer.cpp" />
+    <ClCompile Include="D3DImage.cpp" />
     <ClCompile Include="Engine.cpp" />
     <ClCompile Include="gh_d3d9.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Hook.cpp" />
     <ClCompile Include="Netvars.cpp" />
+    <ClCompile Include="Render.cpp" />
     <ClCompile Include="Signature.cpp" />
     <ClCompile Include="Patternscan.cpp" />
     <ClCompile Include="Print.cpp" />
@@ -203,6 +211,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="TimeManager.cpp" />
     <ClCompile Include="Vector.cpp" />
   </ItemGroup>
   <ItemGroup>

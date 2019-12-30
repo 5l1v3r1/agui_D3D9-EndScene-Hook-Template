@@ -50,7 +50,7 @@ namespace aconsole
 		setGuiFunc(guiFuncConsole);
 		guiFuncConsole->init();
 
-		container.push_back(new  window("WindowName", &sConsole->wnd_b, &sConsole->wnd_i, 100, 100, 490, 290));
+		container.push_back(new  window("WindowName", &sConsole->wnd_b, &sConsole->wnd_i, 700, 500, 490, 290));
 		container.push_back(new  titlebar("Console - Press [INSERT]"));
 		container.push_back(new  ribbon("ribbonbar"));
 		container.push_back(new  tab("Console"));

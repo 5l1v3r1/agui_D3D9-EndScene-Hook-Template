@@ -11,9 +11,6 @@
     <Filter Include="pch">
       <UniqueIdentifier>{d1c22a3d-bdb7-4c08-a079-b7a7d799dbd6}</UniqueIdentifier>
     </Filter>
-    <Filter Include="agui">
-      <UniqueIdentifier>{c895d201-8135-4bb9-8663-f1becbb6622e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Print">
       <UniqueIdentifier>{e657d916-4938-4273-92bc-ccea3d3a99a6}</UniqueIdentifier>
     </Filter>
@@ -48,6 +45,18 @@
     <Filter Include="Cheat\ESP">
       <UniqueIdentifier>{d757febe-8663-4413-86c2-45c8affe2dd2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Visuals">
+      <UniqueIdentifier>{bdbe9930-2b91-4679-851f-e8357a9ce29d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Visuals\D3DImage">
+      <UniqueIdentifier>{497a39cf-160d-49ae-9587-6b0aabb45364}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Visuals\agui">
+      <UniqueIdentifier>{c895d201-8135-4bb9-8663-f1becbb6622e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Visuals\Render">
+      <UniqueIdentifier>{0c0a9701-a7d9-43f1-8c46-3f83f08b0247}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -57,19 +66,19 @@
       <Filter>pch</Filter>
     </ClInclude>
     <ClInclude Include="aconsole.hpp">
-      <Filter>agui</Filter>
+      <Filter>Visuals\agui</Filter>
     </ClInclude>
     <ClInclude Include="adrawing.hpp">
-      <Filter>agui</Filter>
+      <Filter>Visuals\agui</Filter>
     </ClInclude>
     <ClInclude Include="agui.hpp">
-      <Filter>agui</Filter>
+      <Filter>Visuals\agui</Filter>
     </ClInclude>
     <ClInclude Include="ainput.hpp">
-      <Filter>agui</Filter>
+      <Filter>Visuals\agui</Filter>
     </ClInclude>
     <ClInclude Include="amenu.hpp">
-      <Filter>agui</Filter>
+      <Filter>Visuals\agui</Filter>
     </ClInclude>
     <ClInclude Include="gh_d3d9.h">
       <Filter>d3d9hook</Filter>
@@ -110,6 +119,24 @@
     <ClInclude Include="Engine.hpp">
       <Filter>SDK</Filter>
     </ClInclude>
+    <ClInclude Include="Render.hpp">
+      <Filter>Visuals\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Color.hpp">
+      <Filter>Visuals\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="TimeManager.h">
+      <Filter>Visuals\D3DImage</Filter>
+    </ClInclude>
+    <ClInclude Include="D3DImage.h">
+      <Filter>Visuals\D3DImage</Filter>
+    </ClInclude>
+    <ClInclude Include="FileNameXY.h">
+      <Filter>Visuals\D3DImage</Filter>
+    </ClInclude>
+    <ClInclude Include="Halo.h">
+      <Filter>Visuals\D3DImage</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -119,19 +146,19 @@
       <Filter>pch</Filter>
     </ClCompile>
     <ClCompile Include="aconsole.cpp">
-      <Filter>agui</Filter>
+      <Filter>Visuals\agui</Filter>
     </ClCompile>
     <ClCompile Include="adrawing.cpp">
-      <Filter>agui</Filter>
+      <Filter>Visuals\agui</Filter>
     </ClCompile>
     <ClCompile Include="agui.cpp">
-      <Filter>agui</Filter>
+      <Filter>Visuals\agui</Filter>
     </ClCompile>
     <ClCompile Include="ainput.cpp">
-      <Filter>agui</Filter>
+      <Filter>Visuals\agui</Filter>
     </ClCompile>
     <ClCompile Include="amenu.cpp">
-      <Filter>agui</Filter>
+      <Filter>Visuals\agui</Filter>
     </ClCompile>
     <ClCompile Include="gh_d3d9.cpp">
       <Filter>d3d9hook</Filter>
@@ -165,6 +192,15 @@
     </ClCompile>
     <ClCompile Include="Engine.cpp">
       <Filter>SDK</Filter>
+    </ClCompile>
+    <ClCompile Include="Render.cpp">
+      <Filter>Visuals\Render</Filter>
+    </ClCompile>
+    <ClCompile Include="TimeManager.cpp">
+      <Filter>Visuals\D3DImage</Filter>
+    </ClCompile>
+    <ClCompile Include="D3DImage.cpp">
+      <Filter>Visuals\D3DImage</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

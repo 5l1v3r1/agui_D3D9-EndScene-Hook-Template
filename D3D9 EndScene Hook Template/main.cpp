@@ -8,6 +8,11 @@
 #include "Print.hpp"
 #include "Signature.hpp"
 #include "Aimbot.hpp"
+#include "Render.hpp"
+
+#include "D3DImage.h"
+#include "Halo.h"
+D3DImage* __img_arrHalo;
 
 enum STATE
 {
@@ -17,7 +22,7 @@ enum STATE
 	FINISH
 };
 
-STATE bState = INIT;
+STATE bState = STATE::INIT;
 TrampHook thEndScene;
 tEndScene oEndScene = nullptr;
 LPDIRECT3DDEVICE9 pD3DDevice = nullptr;
@@ -33,6 +38,9 @@ HRESULT APIENTRY hkEndScene(LPDIRECT3DDEVICE9 pDevice)
 		amenu::gMenu->initMenu();
 		aconsole::gConsole->initSettings();
 		aconsole::gConsole->initConsole();
+		gRender->Init((IDirect3DDevice9Ex*)pDevice);
+		__img_arrHalo = new D3DImage();
+		__img_arrHalo->InitImage(pDevice, arrHalo, 10055);
 		bState = STATE::DRAW;
 	}
 
@@ -47,7 +55,26 @@ HRESULT APIENTRY hkEndScene(LPDIRECT3DDEVICE9 pDevice)
 
 		WATCH(0, "%s", "I'm in a Loop");
 		WATCH(1, "%p, %i", &counter, counter++);
+		WATCH(2, "%i", gRender->getWidth());
+		WATCH(3, "%i", gRender->getHeight());
 
+		gRender->String(200, 400, WHITE, false, "Small");
+		gRender->String(300, 400, WHITE, true, "Big");
+		gRender->StringOutlined(400, 400, WHITE, false, "OUT1");
+		gRender->StringOutlined(500, 400, WHITE, true, "OUT2");
+		gRender->Rect(200, 500, 40, 40, WHITE);
+		gRender->BorderBox(300, 500, 40, 40, 4, WHITE);
+		gRender->BorderBoxOutlined(400, 500, 40, 40, 4, WHITE, BLACK);
+		gRender->RectOutlined(500, 500, 40, 40, WHITE, BLACK, 4);
+		gRender->Line(200, 600, 240, 640, WHITE, 5.0f);
+		gRender->Cross(300, 600, 40, 40, WHITE, 5.0f);
+		gRender->Crosshair(420, 620, 20, WHITE, 2.0f);
+		gRender->DrawCircleFilled(200, 720, 20, WHITE);
+		gRender->DrawCircle(300, 720, 20, 1, WHITE);
+		gRender->GardientRect(400, 700, 40, 40, 2, 1, BLACK, WHITE, WHITE);
+		//gRender->Texture(100, 100, nullptr, nullptr);
+
+		__img_arrHalo->DrawImage(200, 200);
 	}
 
 	if (bState == STATE::CLEAN)
@@ -55,6 +82,7 @@ HRESULT APIENTRY hkEndScene(LPDIRECT3DDEVICE9 pDevice)
 		adrawing::gDraw->cleanUp();
 		amenu::gMenu->cleanUpMenu();
 		aconsole::gConsole->cleanUpConsole();
+		gRender->CleanUp();
 		bState = STATE::FINISH;
 	}
 
