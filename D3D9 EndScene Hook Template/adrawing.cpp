@@ -64,7 +64,7 @@ namespace adrawing
 		m_cleanedUp = true;
 	}
 
-	void draw::DrawStringCenter(char* str, _D3DRECT rect, D3DCOLOR color, bool bigFont)
+	void draw::DrawStringCenter(const char* str, _D3DRECT rect, D3DCOLOR color, bool bigFont)
 	{
 		if (m_initDrawing == false)
 			return;
@@ -80,7 +80,7 @@ namespace adrawing
 			gDraw->smallFont->DrawText(0, str, strlen(str), &pos, DT_NOCLIP | DT_CENTER | DT_VCENTER, color);
 	}
 
-	void draw::DrawStringLeft(char* str, _D3DRECT rect, D3DCOLOR color, bool bigFont) 
+	void draw::DrawStringLeft(const char* str, _D3DRECT rect, D3DCOLOR color, bool bigFont) 
 	{
 		if (m_initDrawing == false)
 			return;

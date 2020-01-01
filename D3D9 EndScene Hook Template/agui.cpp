@@ -14,7 +14,7 @@ namespace agui {
 #define INFRAMEWIDTH 160
 #define INFRAMEHEIGHT 30
 
-	guiObj::guiObj(window * winPtr, guiObj * upPtr, controlType ct, char* srcCaption, int x, int y, int w, int h) :
+	guiObj::guiObj(window * winPtr, guiObj * upPtr, controlType ct, const char* srcCaption, int x, int y, int w, int h) :
 		win(winPtr), up(upPtr), cType(ct), xPos(x), yPos(y), width(w), height(h),
 		id(gFunc->gObjCounter++), rect({ 0,0,0,0 }), mRect({ 0,0,0,0 }),
 		bigFont(false), caption(srcCaption)
@@ -67,7 +67,7 @@ namespace agui {
 	}
 
 
-	window::window(char* Caption, bool* show, int* key, int x, int y, int w, int h) :
+	window::window(const char* Caption, bool* show, int* key, int x, int y, int w, int h) :
 		guiObj(this, this, controlType::WINDOW, Caption, x, y, w, h),
 		active(show), myKey(key)
 	{
@@ -91,7 +91,7 @@ namespace agui {
 		}
 	}
 
-	titlebar::titlebar(char* Caption, window* wPtr, int height) :
+	titlebar::titlebar(const char* Caption, window* wPtr, int height) :
 		guiObj(wPtr, wPtr, controlType::TITLE, Caption, 0, 0, 480, height),
 		onMoving(false), mousePos({ 0 }), oldWinPos({0})
 	{
@@ -131,7 +131,7 @@ namespace agui {
 
 	}
 
-	ribbon::ribbon(char* Caption, window* wPtr, int x, int y, int w, int h) :
+	ribbon::ribbon(const char* Caption, window* wPtr, int x, int y, int w, int h) :
 		guiObj(wPtr, wPtr, controlType::RIBBON, Caption, x, y, w, h)
 	{
 		gFunc->activeRibbon = this;
@@ -152,7 +152,7 @@ namespace agui {
 		rect = MY_D3DRECT{ tit->rect.x1, tit->rect.y2, tit->rect.x1 + width, tit->rect.y2 + height };
 	}
 
-	tab::tab(char* Caption, window* wPtr, ribbon* rPtr) :
+	tab::tab(const char* Caption, window* wPtr, ribbon* rPtr) :
 		guiObj(wPtr, rPtr, controlType::TAB, Caption, 0, 0, 40, 10)
 	{
 		styleUpdate(true);
@@ -195,7 +195,7 @@ namespace agui {
 		}
 	}
 
-	frame::frame(char* Caption, window* wPtr, tab* tPtr) :
+	frame::frame(const char* Caption, window* wPtr, tab* tPtr) :
 		guiObj(wPtr, tPtr, controlType::FRAME, Caption, 0, 0, 0, 0)
 	{
 		gFunc->activeFrame = this;
@@ -228,7 +228,7 @@ namespace agui {
 		gDraw->DrawStringCenter(caption, rect, adrawing::White, bigFont);
 	}
 
-	button::button(char* Caption, bool* btn, window* wPtr, frame* fPtr) :
+	button::button(const char* Caption, bool* btn, window* wPtr, frame* fPtr) :
 		guiObj(wPtr, fPtr, controlType::BUTTON, Caption, 0, 0, INFRAMEWIDTH, INFRAMEHEIGHT),
 		btnActive(btn), lastTick(0)
 	{
@@ -271,7 +271,7 @@ namespace agui {
 
 	}
 
-	slider::slider(char* Caption, int* is, int max, window* wPtr, frame* fPtr) :
+	slider::slider(const char* Caption, int* is, int max, window* wPtr, frame* fPtr) :
 		guiObj(wPtr, fPtr, controlType::SLIDER, Caption, 0, 0, INFRAMEWIDTH, INFRAMEHEIGHT),
 		actual(is), maximal(max), onMoving(false), newMousePos({ 0,0 }), oldMousePos({ 0,0 })
 	{
@@ -339,7 +339,7 @@ namespace agui {
 		}
 	}
 
-	checkbox::checkbox(char* Caption, bool* isActive, window* wPtr, frame* fPtr) :
+	checkbox::checkbox(const char* Caption, bool* isActive, window* wPtr, frame* fPtr) :
 		guiObj(wPtr, fPtr, controlType::CHECKBOX, Caption, 0, 0, INFRAMEWIDTH, INFRAMEHEIGHT),
 		active(isActive)
 	{
@@ -381,7 +381,7 @@ namespace agui {
 		}
 	}
 
-	hotkey::hotkey(char* Caption, int* key, window* wPtr, frame* fPtr) :
+	hotkey::hotkey(const char* Caption, int* key, window* wPtr, frame* fPtr) :
 		guiObj(wPtr, fPtr, controlType::HOTKEY, Caption, 0, 0, INFRAMEWIDTH, INFRAMEHEIGHT),
 		myKey(key), onSearch(false), lastTick(0)
 	{
@@ -439,7 +439,7 @@ namespace agui {
 		}
 	}
 
-	label::label(char* Caption, window* wPtr, frame* fPtr) :
+	label::label(const char* Caption, window* wPtr, frame* fPtr) :
 		guiObj(wPtr, fPtr, controlType::LABEL, Caption, 0, 0, INFRAMEWIDTH, INFRAMEHEIGHT)
 	{
 		win->pGuiObj.push_back(this);
@@ -456,7 +456,7 @@ namespace agui {
 		gDraw->DrawStringLeft(caption, { rect.x1 + PAD, rect.y1 + MAR, rect.x2, rect.y2 }, adrawing::White, bigFont);
 	}
 
-	consoleLabel::consoleLabel(char* Caption, char** ppStr, window* wPtr, frame* fPtr) :
+	consoleLabel::consoleLabel(const char* Caption, char** ppStr, window* wPtr, frame* fPtr) :
 		guiObj(wPtr, fPtr, controlType::CONSOLELABEL, Caption, 0, 0, 480, 20),
 		ptrPtrStr(ppStr)
 	{
@@ -475,7 +475,7 @@ namespace agui {
 
 	textbox::textbox(char* Caption, window* wPtr, frame* fPtr) :
 		guiObj(wPtr, fPtr, controlType::TEXTBOX, Caption, 0, 0, INFRAMEWIDTH, 30),
-		onInput(false), charCounter(0), lastKey(0), newKey(0), lastTick(0)
+		onInput(false), charCounter(0), lastKey(0), newKey(0), lastTick(0), text(Caption)
 	{
 		win->pGuiObj.push_back(this);
 		fPtr->frameObj.push_back(this);
@@ -506,7 +506,7 @@ namespace agui {
 		if (isMouseInRect(mRect) && isMouseClicked()) {
 			onInput = true;
 			charCounter = 0;
-			caption[charCounter] = '\0';
+			text[charCounter] = '\0';
 		}
 		if (!isMouseInRect(mRect)) {
 			onInput = false;
@@ -524,21 +524,21 @@ namespace agui {
 			if (charCounter < 20 && (('0' <= newKey && newKey < '9') ||
 				('A' <= newKey && newKey < 'Z') || (newKey == VK_SPACE))) {
 
-				caption[charCounter] = newKey;
+				text[charCounter] = newKey;
 				charCounter++;
-				caption[charCounter] = '\0';
+				text[charCounter] = '\0';
 				lastTick = GetTickCount();
 			}
 			if (newKey == VK_BACK && charCounter > 0) {
 				charCounter--;
-				caption[charCounter] = '\0';
+				text[charCounter] = '\0';
 				lastTick = GetTickCount();
 			}
 			lastKey = newKey;
 		}
 	}
 
-	combobox::combobox(char* Caption, int* selected, int argc, char* argv[], window* wPtr, frame* fPtr) :
+	combobox::combobox(const char* Caption, int* selected, int argc, char* argv[], window* wPtr, frame* fPtr) :
 		guiObj(wPtr, fPtr, controlType::COMBOBOX, Caption, 0, 0, INFRAMEWIDTH, 30),
 		actual(selected), maximal(argc), str(argv), isOpen(false)
 	{

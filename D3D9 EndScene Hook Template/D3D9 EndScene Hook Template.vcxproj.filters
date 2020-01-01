@@ -137,6 +137,12 @@
     <ClInclude Include="Halo.h">
       <Filter>Visuals\D3DImage</Filter>
     </ClInclude>
+    <ClInclude Include="PlayerList.hpp">
+      <Filter>Cheat</Filter>
+    </ClInclude>
+    <ClInclude Include="ESP.hpp">
+      <Filter>Cheat\ESP</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -201,6 +207,12 @@
     </ClCompile>
     <ClCompile Include="D3DImage.cpp">
       <Filter>Visuals\D3DImage</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerList.cpp">
+      <Filter>Cheat</Filter>
+    </ClCompile>
+    <ClCompile Include="ESP.cpp">
+      <Filter>Cheat\ESP</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

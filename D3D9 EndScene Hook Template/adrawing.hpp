@@ -42,8 +42,8 @@ namespace adrawing
 		void initDrawing(IDirect3DDevice9Ex* pDevice = nullptr);
 		void cleanUp();
 
-		void DrawStringCenter(char* str, _D3DRECT rect, D3DCOLOR color, bool bigFont);
-		void DrawStringLeft(char* str, _D3DRECT rect, D3DCOLOR color, bool bigFont);
+		void DrawStringCenter(const char* str, _D3DRECT rect, D3DCOLOR color, bool bigFont);
+		void DrawStringLeft(const char* str, _D3DRECT rect, D3DCOLOR color, bool bigFont);
 		void DrawFilledRectangle(_D3DRECT rect, D3DCOLOR color);
 
 	};

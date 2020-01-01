@@ -7,7 +7,6 @@
 
 class Aimbot
 {
-	void getEnemyList(std::vector<CEntity*>& enemyList);
 	//void getBestTarget(std::vector<CEntity*>& enemyList);
 	Vector3 calcAngle(Vector3 src, Vector3 des);
 	Vector3 normalize(Vector3 src);

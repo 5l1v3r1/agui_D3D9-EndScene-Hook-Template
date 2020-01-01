@@ -2,7 +2,7 @@
 #include <memory>
 #include "Vector.hpp"
 
-enum STATE : int
+enum CLIENTSTATE : int
 {
 	LOBBY,
 	LOADING,
@@ -20,10 +20,10 @@ private:
 public:
 	static CClientState* getClientState();
 
-	STATE getState();
-	int getMaxPlayer();
+	CLIENTSTATE	getState();
+	int		getMaxPlayer();
 	Vector3 getViewAngle();
-	void setViewAngle(Vector3& des);
+	void	setViewAngle(Vector3& des);
 
 
 	bool isIngame();

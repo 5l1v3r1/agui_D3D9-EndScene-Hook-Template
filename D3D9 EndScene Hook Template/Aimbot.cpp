@@ -4,44 +4,8 @@
 #include "Engine.hpp"
 #include "Aimbot.hpp"
 #include "Print.hpp"
+#include "PlayerList.hpp"
 
-void Aimbot::getEnemyList(std::vector<CEntity*>& enemyList)
-{
-	CClientState* cs = CClientState::getClientState();
-	if (!cs->isIngame())
-		return;
-
-	CLocalPlayer* localPlayer = CLocalPlayer::getLocalPlayer();
-	if (!localPlayer)
-		return;
-
-	if (!(*(uint32_t*)localPlayer))
-		return;
-
-	for (int i = 1; i < cs->getMaxPlayer(); i++)
-	{
-		CEntity* entity = CEntity::getEntity(i);
-		if (!entity)
-			continue;
-
-		if (!(*(uint32_t*)entity))
-			continue;
-
-		if ((uintptr_t*)entity == (uintptr_t*)localPlayer)
-			continue;
-
-		if (entity->isDead())
-			continue;
-
-		if (entity->isDormant())
-			continue;
-
-		if (entity->getTeam() == localPlayer->getTeam())
-			continue;
-
-		enemyList.push_back(entity);
-	}
-}
 
 Vector3 Aimbot::calcAngle(Vector3 src, Vector3 dst)
 {
@@ -107,22 +71,24 @@ Aimbot::~Aimbot()
 
 void Aimbot::Run()
 {
-	std::vector<CEntity*>  eList;
+	if (GetAsyncKeyState(VK_MENU) & 0x8000)
+	{
+
+
+
 	CEntity* bestTarget = nullptr;
 	Vector3  bestTargetBone;
 	QAngle   bestTargetAngle;
 	float	 bestTargetAngleDif = 90.0f;
 	
-	getEnemyList(eList);
-
-	if (eList.empty())
+	if (gPlayerList->enemy.empty())
 		return;
 
 	Vector3 localPos	= CLocalPlayer::getLocalPlayer()->getPosition();
 	Vector3 localEyePos	= localPos + CLocalPlayer::getLocalPlayer()->getViewOffset();
 	QAngle  localView	= CClientState::getClientState()->getViewAngle();
 
-	for (auto e : eList)
+	for (auto e : gPlayerList->enemy)
 	{
 		Vector3 entityBonePos		= e->getBonePosition(8);
 		QAngle angleToBone			= calcAngle(localEyePos, entityBonePos);
@@ -143,6 +109,7 @@ void Aimbot::Run()
 		WATCH(4, "%0.2f", bestTargetAngleDif);
 		Vector3 angleSmooth = smoothIt(localView, bestTargetAngle);
 		CClientState::getClientState()->setViewAngle(angleSmooth);
+	}
 	}
 }
 

@@ -17,9 +17,9 @@ CClientState* CClientState::getClientState()
 	return (CClientState*)(gSignature->dwClientState);
 }
 
-STATE CClientState::getState()
+CLIENTSTATE CClientState::getState()
 {
-	return *(STATE*)(*(uintptr_t*)this + gSignature->dwClientState_State);
+	return *(CLIENTSTATE*)(*(uintptr_t*)this + gSignature->dwClientState_State);
 }
 
 int CClientState::getMaxPlayer()
@@ -40,7 +40,7 @@ void CClientState::setViewAngle(Vector3& des)
 
 bool CClientState::isIngame()
 {
-	if (getState() == STATE::INGAME)
+	if (getState() == CLIENTSTATE::INGAME)
 		return true;
 	return false;
 }

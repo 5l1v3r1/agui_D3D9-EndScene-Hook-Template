@@ -45,7 +45,7 @@ namespace agui {
 		int				width;
 		int				height;
 
-		char*			caption;
+		const char*		caption;
 		int				id;
 		//bool			mouseOver;
 
@@ -53,7 +53,7 @@ namespace agui {
 		MY_D3DRECT		rect;
 		MY_D3DRECT		mRect;
 
-		guiObj(window* winPtr, guiObj* upPtr, controlType ct, char* srcCaption, int x, int y, int w, int h);
+		guiObj(window* winPtr, guiObj* upPtr, controlType ct, const char* srcCaption, int x, int y, int w, int h);
 		void styleUpdate(bool _bigFont = false);
 		virtual void drawBackground();
 		virtual void drawBorder();
@@ -92,7 +92,7 @@ namespace agui {
 		bool* active;
 		int*  myKey;
 
-		window(char* Caption, bool* show, int* key, int xPos = 100, int yPos = 100, int width = 480, int height = 270);
+		window(const char* Caption, bool* show, int* key, int xPos = 100, int yPos = 100, int width = 480, int height = 270);
 		void updateRectPosition() override;
 		void functionUpdate() override;
 	};
@@ -103,7 +103,7 @@ namespace agui {
 		POINT mousePos;
 		MY_D3DRECT oldWinPos;
 		
-		titlebar(char* Caption, window* wPtr = gFunc->activeWindow, int height = 25);
+		titlebar(const char* Caption, window* wPtr = gFunc->activeWindow, int height = 25);
 		void updateRectPosition() override;
 		void drawBackground() override;
 		void moveWindow();
@@ -112,14 +112,14 @@ namespace agui {
 	struct ribbon : public guiObj {
 		std::vector<guiObj*> ribbonObj;
 
-		ribbon(char* Caption, window* wPtr = gFunc->activeWindow, int xPos = 0, int yPos = 10, int width = 480, int height = 40);
+		ribbon(const char* Caption, window* wPtr = gFunc->activeWindow, int xPos = 0, int yPos = 10, int width = 480, int height = 40);
 		void updateRectPosition() override;
 	};
 
 	struct tab : public guiObj {
 		bool active = true;
 
-		tab(char* Caption, window* wPtr = gFunc->activeWindow, ribbon* rPtr = gFunc->activeRibbon);
+		tab(const char* Caption, window* wPtr = gFunc->activeWindow, ribbon* rPtr = gFunc->activeRibbon);
 		void updateRectPosition() override;
 		void drawBackground() override;
 		void drawBorder() override;
@@ -129,7 +129,7 @@ namespace agui {
 	struct frame : public guiObj {
 		std::vector<guiObj*> frameObj;
 
-		frame(char* Caption, window* wPtr = gFunc->activeWindow, tab* tPtr = gFunc->activeTab);
+		frame(const char* Caption, window* wPtr = gFunc->activeWindow, tab* tPtr = gFunc->activeTab);
 		void updateRectPosition() override;
 		void drawStr() override;
 	};
@@ -138,7 +138,7 @@ namespace agui {
 		bool* btnActive;
 		unsigned long lastTick;
 
-		button(char* Caption, bool* btn, window* wPtr = gFunc->activeWindow, frame* fPtr = gFunc->activeFrame);
+		button(const char* Caption, bool* btn, window* wPtr = gFunc->activeWindow, frame* fPtr = gFunc->activeFrame);
 		void updateRectPosition() override;
 		void drawExtra() override;
 		void drawButton(const MY_D3DRECT& rect);
@@ -153,7 +153,7 @@ namespace agui {
 		POINT oldMousePos;
 		POINT newMousePos;
 
-		slider(char* Caption, int* is, int max, window* wPtr = gFunc->activeWindow, frame* fPtr = gFunc->activeFrame);
+		slider(const char* Caption, int* is, int max, window* wPtr = gFunc->activeWindow, frame* fPtr = gFunc->activeFrame);
 		void updateRectPosition() override;
 		void drawExtra() override;
 		void drawSlider(const MY_D3DRECT& sldRect);
@@ -163,7 +163,7 @@ namespace agui {
 	struct checkbox : public guiObj {
 
 		bool* active;
-		checkbox(char* Caption, bool* isActive, window* wPtr = gFunc->activeWindow, frame* fPtr = gFunc->activeFrame);
+		checkbox(const char* Caption, bool* isActive, window* wPtr = gFunc->activeWindow, frame* fPtr = gFunc->activeFrame);
 		void updateRectPosition() override;
 		void drawExtra() override;
 		void drawCheckbox(const MY_D3DRECT& rect);
@@ -177,7 +177,7 @@ namespace agui {
 		int onSearch;
 		unsigned long lastTick;
 
-		hotkey(char* Caption, int* key, window* wPtr = gFunc->activeWindow, frame* fPtr = gFunc->activeFrame);
+		hotkey(const char* Caption, int* key, window* wPtr = gFunc->activeWindow, frame* fPtr = gFunc->activeFrame);
 		void updateRectPosition() override;
 		void drawExtra() override;
 		void drawHotkey(const MY_D3DRECT& hkyRect);
@@ -187,7 +187,7 @@ namespace agui {
 
 	struct label : public guiObj {
 
-		label(char* Caption, window* wPtr = gFunc->activeWindow, frame* fPtr = gFunc->activeFrame);
+		label(const char* Caption, window* wPtr = gFunc->activeWindow, frame* fPtr = gFunc->activeFrame);
 		void updateRectPosition() override;
 		void drawStr() override;
 	};
@@ -196,7 +196,7 @@ namespace agui {
 
 		char** ptrPtrStr;
 
-		consoleLabel(char* Caption, char** ppStr, window* wPtr = gFunc->activeWindow, frame* fPtr = gFunc->activeFrame);
+		consoleLabel(const char* Caption, char** ppStr, window* wPtr = gFunc->activeWindow, frame* fPtr = gFunc->activeFrame);
 		void updateRectPosition() override;
 		void drawStr() override;
 	};
@@ -208,6 +208,7 @@ namespace agui {
 		int lastKey;
 		int newKey;
 		unsigned long lastTick;
+		char* text;
 
 		textbox(char* Caption, window* wPtr = gFunc->activeWindow, frame* fPtr = gFunc->activeFrame);
 		void updateRectPosition() override;
@@ -223,7 +224,7 @@ namespace agui {
 		int* actual;
 		bool isOpen;
 
-		combobox(char* Caption, int* selected, int argc, char* argv[], window* wPtr = gFunc->activeWindow, frame* fPtr = gFunc->activeFrame);
+		combobox(const char* Caption, int* selected, int argc, char* argv[], window* wPtr = gFunc->activeWindow, frame* fPtr = gFunc->activeFrame);
 		void updateRectPosition() override;
 		void drawExtra() override;
 		void drawMenu();

@@ -104,6 +104,9 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <PostBuildEvent>
+      <Command>xcopy "$(OutDir)$(AssemblyName).dll" "$(SolutionDir)output\mogeln.dll" /D /Y</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -119,6 +122,9 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <PostBuildEvent>
+      <Command>xcopy "$(OutDir)$(AssemblyName).dll" "$(SolutionDir)output\mogeln.dll" /D /Y</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -136,8 +142,11 @@
       <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
     </Link>
+    <PostBuildEvent>
+      <Command>xcopy "$(OutDir)$(AssemblyName).dll" "$(SolutionDir)output\mogeln.dll" /D /Y</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -155,8 +164,11 @@
       <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
     </Link>
+    <PostBuildEvent>
+      <Command>xcopy "$(OutDir)$(AssemblyName).dll" "$(SolutionDir)output\mogeln.dll" /D /Y</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="aconsole.hpp" />
@@ -170,6 +182,7 @@
     <ClInclude Include="Color.hpp" />
     <ClInclude Include="D3DImage.h" />
     <ClInclude Include="Engine.hpp" />
+    <ClInclude Include="ESP.hpp" />
     <ClInclude Include="fake_ntdll.h" />
     <ClInclude Include="FileNameXY.h" />
     <ClInclude Include="gh_d3d9.h" />
@@ -177,6 +190,7 @@
     <ClInclude Include="Hook.hpp" />
     <ClInclude Include="ldisasm.h" />
     <ClInclude Include="Netvars.hpp" />
+    <ClInclude Include="PlayerList.hpp" />
     <ClInclude Include="Render.hpp" />
     <ClInclude Include="Signature.hpp" />
     <ClInclude Include="Patternscan.hpp" />
@@ -197,10 +211,12 @@
     <ClCompile Include="CLocalPlayer.cpp" />
     <ClCompile Include="D3DImage.cpp" />
     <ClCompile Include="Engine.cpp" />
+    <ClCompile Include="ESP.cpp" />
     <ClCompile Include="gh_d3d9.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Hook.cpp" />
     <ClCompile Include="Netvars.cpp" />
+    <ClCompile Include="PlayerList.cpp" />
     <ClCompile Include="Render.cpp" />
     <ClCompile Include="Signature.cpp" />
     <ClCompile Include="Patternscan.cpp" />

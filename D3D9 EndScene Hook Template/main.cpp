@@ -9,6 +9,8 @@
 #include "Signature.hpp"
 #include "Aimbot.hpp"
 #include "Render.hpp"
+#include "PlayerList.hpp"
+#include "ESP.hpp"
 
 #include "D3DImage.h"
 #include "Halo.h"
@@ -41,6 +43,9 @@ HRESULT APIENTRY hkEndScene(LPDIRECT3DDEVICE9 pDevice)
 		gRender->Init((IDirect3DDevice9Ex*)pDevice);
 		__img_arrHalo = new D3DImage();
 		__img_arrHalo->InitImage(pDevice, arrHalo, 10055);
+
+		gSignature->initSignatures();
+		gSignature->initNetvars();
 		bState = STATE::DRAW;
 	}
 
@@ -58,23 +63,29 @@ HRESULT APIENTRY hkEndScene(LPDIRECT3DDEVICE9 pDevice)
 		WATCH(2, "%i", gRender->getWidth());
 		WATCH(3, "%i", gRender->getHeight());
 
-		gRender->String(200, 400, WHITE, false, "Small");
-		gRender->String(300, 400, WHITE, true, "Big");
-		gRender->StringOutlined(400, 400, WHITE, false, "OUT1");
-		gRender->StringOutlined(500, 400, WHITE, true, "OUT2");
-		gRender->Rect(200, 500, 40, 40, WHITE);
-		gRender->BorderBox(300, 500, 40, 40, 4, WHITE);
-		gRender->BorderBoxOutlined(400, 500, 40, 40, 4, WHITE, BLACK);
-		gRender->RectOutlined(500, 500, 40, 40, WHITE, BLACK, 4);
-		gRender->Line(200, 600, 240, 640, WHITE, 5.0f);
-		gRender->Cross(300, 600, 40, 40, WHITE, 5.0f);
-		gRender->Crosshair(420, 620, 20, WHITE, 2.0f);
-		gRender->DrawCircleFilled(200, 720, 20, WHITE);
-		gRender->DrawCircle(300, 720, 20, 1, WHITE);
-		gRender->GardientRect(400, 700, 40, 40, 2, 1, BLACK, WHITE, WHITE);
+		//gRender->String(200, 400, WHITE, false, "Small");
+		//gRender->String(300, 400, WHITE, true, "Big");
+		//gRender->StringOutlined(400, 400, WHITE, false, "OUT1");
+		//gRender->StringOutlined(500, 400, WHITE, true, "OUT2");
+		//gRender->Rect(200, 500, 40, 40, WHITE);
+		//gRender->BorderBox(300, 500, 40, 40, 4, WHITE);
+		//gRender->BorderBoxOutlined(400, 500, 40, 40, 4, WHITE, BLACK);
+		//gRender->RectOutlined(500, 500, 40, 40, WHITE, BLACK, 4);
+		//gRender->Line(200, 600, 240, 640, WHITE, 5.0f);
+		//gRender->Cross(300, 600, 40, 40, WHITE, 5.0f);
+		//gRender->Crosshair(420, 620, 20, WHITE, 2.0f);
+		//gRender->DrawCircleFilled(200, 720, 20, WHITE);
+		//gRender->DrawCircle(300, 720, 20, 1, WHITE);
+		//gRender->GardientRect(400, 700, 40, 40, 2, 1, BLACK, WHITE, WHITE);
 		//gRender->Texture(100, 100, nullptr, nullptr);
 
 		__img_arrHalo->DrawImage(200, 200);
+
+		gPlayerList->clear();
+		gPlayerList->fill();
+
+		g_aimbot->Run();
+		gESP->Run();
 	}
 
 	if (bState == STATE::CLEAN)
@@ -100,14 +111,9 @@ DWORD WINAPI Init(HMODULE hModule)
 		oEndScene = (tEndScene)thEndScene.trampHook((char*)d3d9Device[42], (char*)hkEndScene);
 	}
 
-	
-	gSignature->initSignatures();
-	gSignature->initNetvars();
-
 
 	while (!(GetAsyncKeyState(VK_XBUTTON1) & 0x8000))
-	{
-		g_aimbot->Run();
+	{		
 		Sleep(1);
 	}
 
@@ -128,6 +134,7 @@ BOOL APIENTRY DllMain(HMODULE hModule, DWORD ul_reason_for_call, LPVOID lpReserv
 	{
 	case DLL_PROCESS_ATTACH:
 	{
+		DisableThreadLibraryCalls(hModule);
 		HANDLE hThread = nullptr;
 		hThread = CreateThread(nullptr, 0, (LPTHREAD_START_ROUTINE)Init, hModule, 0, nullptr);
 		if (hThread)
